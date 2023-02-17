@@ -1,11 +1,13 @@
 import React from "react";
+import Chat from "./components/chat/Chat";
+import LogIn from "./components/signin/LogIn";
+import SignIn from "./components/signin/SignIn";
 
 const App = () => {
   return (
     <>
-      <h1 className="text-3xl font-bold underline text-center text-gray-400">
-        Hello world!
-      </h1>
+    {/* <SignIn/> */}
+    <Chat/>
     </>
   );
 };
