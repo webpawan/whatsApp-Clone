@@ -1,50 +1,90 @@
-import React from "react";
+import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
+
+
+const handleSubmit = () => {};
 const LogIn = () => {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
   return (
     <>
-      <div className="LogIn min-w-full h-screen bg-gradient-to-t from-green-500 to-green-50 ">
-        <div className="flex justify-between item-center w-11/12 pt-2 mx-auto ">
-          <div className="logo w-10">
-            <img src={logo} alt="logo" />
-          </div>
-          <div className="signIn text-teal-700 border-b-2 border-b-green-700 p-2 cursor-pointer">
-            create new user
+      <div className="h-screen relative bg-black">
+        <div className="h-[222px] w-full bg-[#00a884]  absolute top-0">
+          <div className="h-10  w-[880px] mx-auto mt-5 flex items-center">
+            <div className="logo w-9">
+              <img src={logo} alt="logo" />
+            </div>
+            <p className="ml-5 text-xs text-white ">WHATSAPP WEB</p>
           </div>
         </div>
-        {/* sign in navbar*/}
-
-        <div className="h-5/6 flex flex-col items-center justify-center      ">
-          <form
-            action=""
-            className=" bg-white/30 p-7 shadow-md shadow-green-700 rounded border border-green-50"
-          >
-            <h2 className="block mx-auto text-center text-3xl text-teal-700 ">
-              Log In
-            </h2>
-
-            <label className="block mt-2 mb-1  text-teal-700">Email</label>
-
-            <input
-              type="text"
-              placeholder="email"
-              className=" px-2 py-1 text-teal-700 shadow appearance-none border-2 border-green-200 rounded focus:outline-none focus:border-teal-600  text-teal-700 focus:text-teal-600"
-            />
-            <label
-              className="block mt-5 mb-1 
-            text-teal-700"
-            >
-              password
-            </label>
-            <input
-              type="email"
-              placeholder="password"
-              className="px-2 py-1  shadow appearance-none border-2 border-green-200 rounded focus:outline-none focus:border-teal-600  text-teal-700 focus:text-teal-600"
-            />
-            <button className="shadow  block mx-auto mt-4 border-2 px-2 py-1 border-teal-600  transition duration-150 ease-in-out  hover:bg-teal-600 hover:text-green-300 shadow-lg hover:shadow-inner shadow-green-300 focus:shadow-sm focus:shadow-green-600 text-green-700 focus:text-green-900">
-              submit
-            </button>
-          </form>
+        <div className="h-5/6 p-[62px] absolute inset-x-0 shadow-xl bg-white w-[880px] mx-auto bottom-0 flex  justify-between">
+          <div>
+            <h1 className="text-2xl font-thin">
+              Use WhatsApp on your computer
+            </h1>
+            <ul className=" p-5 mt-10">
+              <li className="list-decimal font-[350] mb-5">
+                Open WhatsApp on your phone
+              </li>
+              <li className="list-decimal font-[350] mb-5">
+                if you are new please{" "}
+                <span className="font-medium"> signIn</span>
+              </li>
+              <li className="list-decimal font-[350] mb-5">
+                if you already signIn please{" "}
+                <span className="font-medium"> login</span>
+              </li>
+              <li className="list-decimal font-[350] mb-5">
+                if you don't want to signin{" "}
+                <span className="font-medium"> please use guest user</span>
+              </li>
+            </ul>
+            <div className="flex">
+              <NavLink
+                to="/signin"
+                className="text-[#00a884] border-2 border-[#00a884] mt-5 px-5 py-2 rounded-full text-white s active:bg-[#00a884] hover:bg-[#00a884] hover:text-white transition-all
+              shadow-md mr-3 text-sm active:shadow"
+                // onClick={submitHandler}
+              >
+                Sign In
+              </NavLink>
+              <button
+                className="text-[#00a884] border-2 border-[#00a884] mt-5 px-5 py-2 rounded-full text-white  active:bg-[#00a884] hover:bg-[#00a884] hover:text-white transition-all
+              shadow-md text-sm active:shadow"
+                // onClick={submitHandler}
+              >
+                guest User
+              </button>
+            </div>
+          </div>
+          {/* signin  */}
+          <div className=" h-2/3 flex flex-col items-center basis-1/2 bg-slate-100">
+            <h2 className="font-light text-2xl p-2 border-b-2 ">Log In</h2>
+            <form action="" className="flex flex-col items-center  ">
+              
+              <input
+                type="email"
+                placeholder="email"
+                onChange={(e) => setEmail(e.target.value)}
+                className=" px-2 py-1 mt-2 my-5 border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
+              />
+              <input
+                type="password"
+                placeholder="password"
+                onChange={(e) => setPassword(e.target.value)}
+                className=" px-2 py-1  border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
+              />
+              
+              <button
+                className=" bg-[#00a88499] my-5 px-5 py-2 rounded-full text-white shadow-xl  hover:shadow-md focus:shadow transition-shadow hover:-translate-y-[.5px] focus:bg-[#00a884] active:bg-[#00a884] text-sm"
+                // onClick={submitHandler}
+              >
+                submit
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </>
