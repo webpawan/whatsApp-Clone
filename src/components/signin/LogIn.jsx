@@ -44,14 +44,14 @@ const LogIn = () => {
             <div className="flex">
               <NavLink
                 to="/signin"
-                className="text-[#00a884] border-2 border-[#00a884] mt-5 px-5 py-2 rounded-full text-white s active:bg-[#00a884] hover:bg-[#00a884] hover:text-white transition-all
+                className="text-[#00a884] border-2 border-[#00a884] mt-5 px-5 py-2 rounded-full hover:text-white s active:bg-[#00a884] hover:bg-[#00a884] hover:text-white transition-all
               shadow-md mr-3 text-sm active:shadow"
                 // onClick={submitHandler}
               >
                 Sign In
               </NavLink>
               <button
-                className="text-[#00a884] border-2 border-[#00a884] mt-5 px-5 py-2 rounded-full text-white  active:bg-[#00a884] hover:bg-[#00a884] hover:text-white transition-all
+                className="text-[#00a884] border-2 border-[#00a884] mt-5 px-5 py-2 rounded-full hover:text-white  active:bg-[#00a884] hover:bg-[#00a884] hover:text-white transition-all
               shadow-md text-sm active:shadow"
                 // onClick={submitHandler}
               >
