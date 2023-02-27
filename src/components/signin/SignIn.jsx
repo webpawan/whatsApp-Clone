@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-import axios from "axios";
+import axios, { Axios } from "axios";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -9,11 +9,38 @@ const SignIn = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [loadin, setLoadin] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [pic, setPic] = useState();
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if (!name || !email || !password) {
+      return alert("fill all the fields");
+    }
+
+    try {
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(
+        "/api/user/register",
+        { name, email, password, pic },config);
+      if (data) {
+        setLoading(false);
+        localStorage.setItem('userInfo',JSON.stringify(data))
+        navigate('/chat')
+        return alert("registration successfull");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const postDetails = (pics) => {
-    setLoadin(true);
+    setLoading(true);
     if (pics === undefined) {
       alert("something is wrong Try again");
       return;
@@ -35,11 +62,11 @@ const SignIn = () => {
       .then((res) => res.json())
       .then((data) => {
         setPic(data.url.toString());
-        setLoadin(false);
+        setLoading(false);
       })
       .catch((e) => {
         console.log(e);
-        setLoadin(false);
+        setLoading(false);
       });
   };
 
@@ -77,7 +104,8 @@ const SignIn = () => {
               </li>
             </ul>
             <div className="flex">
-              <NavLink to="/login"
+              <NavLink
+                to="/login"
                 className="text-[#00a884] border-2 border-[#00a884] mt-5 px-5 py-2 rounded-full hover:text-white s active:bg-[#00a884] hover:bg-[#00a884] hover:text-white transition-all
               shadow-md mr-3 text-sm active:shadow "
                 // onClick={submitHandler}
@@ -120,15 +148,15 @@ const SignIn = () => {
                 accept="image/*"
                 onChange={(e) => postDetails(e.target.files[0])}
                 placeholder="select image"
-                class="my-5 pb-1 block  text-xs text-[#00a884]  cursor-pointer  focus:outline-none file:bg-transparent file:border-none border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] transition ease-in-out bg-transparent "
+                className="my-5 pb-1 block  text-xs text-[#00a884]  cursor-pointer  focus:outline-none file:bg-transparent file:border-none border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] transition ease-in-out bg-transparent "
               />
-              <button
-                className=" bg-[#00a88499] mt-5 px-5 py-2 rounded-full text-white shadow-xl  hover:shadow-md focus:shadow transition-shadow hover:-translate-y-[.5px] focus:bg-[#00a884] active:bg-[#00a884] text-sm"
-                // onClick={submitHandler}
-              >
-                submit
-              </button>
             </form>
+            <button
+              className=" bg-[#00a88499] mt-5 px-5 py-2 rounded-full text-white shadow-xl  hover:shadow-md focus:shadow transition-shadow hover:-translate-y-[.5px] focus:bg-[#00a884] active:bg-[#00a884] text-sm"
+              onClick={submitHandler}
+            >
+              submit
+            </button>
           </div>
         </div>
       </div>

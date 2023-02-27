@@ -1,13 +1,48 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 
-
-const handleSubmit = () => {};
 const LogIn = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [loading, setLoading] = useState(false);
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    if (!email || !password) {
+      return alert("fill all the fields");
+    }
+    try {
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(
+        "/api/user/login",
+        {
+          email,
+          password,
+        },
+        config
+      );
+      console.log(data);
+      if (data) {
+        setLoading(false);
+        localStorage.setItem("userInfo", JSON.stringify(data));
+navigate('/chat')
+        return alert("login successfull");
+      }
+
+    } catch (error) {
+      return alert("invalid creadintial");
+    }
+  };
   return (
     <>
       <div className="h-screen relative bg-black">
@@ -63,7 +98,6 @@ const LogIn = () => {
           <div className=" h-2/3 flex flex-col items-center basis-1/2 bg-slate-100">
             <h2 className="font-light text-2xl p-2 border-b-2 ">Log In</h2>
             <form action="" className="flex flex-col items-center  ">
-              
               <input
                 type="email"
                 placeholder="email"
@@ -76,10 +110,10 @@ const LogIn = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className=" px-2 py-1  border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
               />
-              
+
               <button
                 className=" bg-[#00a88499] my-5 px-5 py-2 rounded-full text-white shadow-xl  hover:shadow-md focus:shadow transition-shadow hover:-translate-y-[.5px] focus:bg-[#00a884] active:bg-[#00a884] text-sm"
-                // onClick={submitHandler}
+                onClick={submitHandler}
               >
                 submit
               </button>
