@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isOpenSlidebar: false,
-  isModal:false,
+  isModal: false,
+  isUserPic: false,
 };
 const toogleSlice = createSlice({
   name: "toolSlice",
@@ -20,11 +21,19 @@ const toogleSlice = createSlice({
     closeModal: (state) => {
       state.isModal = false;
     },
+    openUserModalPic: (state) => {
+      state.isUserPic = true;
+    },
+    closeUserModalPic: (state) => {
+      state.isUserPic = false;
+    },
   },
 });
 
 export default toogleSlice.reducer;
-export const {openSlidebar,closeSlidebar,openModal,closeModal} = toogleSlice.actions;
+export const { openSlidebar, closeSlidebar, openModal, closeModal ,openUserModalPic,closeUserModalPic} =
+  toogleSlice.actions;
 
-export const isOpenSlidebar = (state) =>state.toogle.isOpenSlidebar;
+export const isOpenSlidebar = (state) => state.toogle.isOpenSlidebar;
 export const isModal = (state) => state.toogle.isModal;
+export const userModal = (state) => state.toogle.isUserPic;

@@ -1,8 +1,11 @@
 import React from 'react'
+import { useDispatch } from 'react-redux';
 import bgImage from "../../assets/images/bg.png";
+import { openUserModalPic } from '../../assets/logic/features/toggleSlice';
 
 
 const ChatBox = () => {
+  const dispatch = useDispatch();
   return (
     <>
       <div
@@ -12,7 +15,7 @@ const ChatBox = () => {
         {/* ------------------- */}
         <div className="w-full flex items-center justify-between bg-[#202c33] py-2 px-4">
           <div className="flex items-center ">
-            <div className="mr-2 user h-[30px] w-[30px]  rounded-full">
+            <div className="mr-2 user h-[30px] w-[30px]  rounded-full" onClick={()=> dispatch(openUserModalPic())}>
               <svg
                 viewBox="0 0 212 212"
                 preserveAspectRatio="xMidYMid meet"
@@ -115,6 +118,7 @@ const ChatBox = () => {
             <i className="fa-solid fa-microphone"></i>
           </div>
         </div>
+        
       </div>
     </>
   );

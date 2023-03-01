@@ -91,6 +91,21 @@ if(slider){
             </div>
           </div>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         <form className="flex   m-[5px] ml-2 w-full  items-center   mx-auto ">
           <div className=" flex  items-center w-11/12 ">
             <label
