@@ -5,6 +5,7 @@ import SignIn from "./components/signin/SignIn";
 import { Route, Routes } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import SidebarSearch from "./components/pages/SidebarSearch";
 const App = () => {
   const location = useLocation();
 
@@ -12,9 +13,10 @@ const App = () => {
     <>
       <AnimatePresence location={location} key={location.pathname}>
         <Routes>
-          <Route path="/chat" element={<Chat />} />
           <Route path="/" element={<SignIn />} />
           <Route path="/login" element={<LogIn />} />
+          <Route path="/chat" element={<Chat />} />
+          
         </Routes>
       </AnimatePresence>
     </>

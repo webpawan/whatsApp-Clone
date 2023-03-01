@@ -31,7 +31,6 @@ const LogIn = () => {
         },
         config
       );
-      console.log(data);
       if (data) {
         setLoading(false);
         localStorage.setItem("userInfo", JSON.stringify(data));

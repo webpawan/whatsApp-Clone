@@ -1,7 +1,11 @@
+import { AnimatePresence } from "framer-motion";
 import React, { useState } from "react";
-import { ChatState } from "../../assets/context/ChatProvider";
+import { useSelector } from "react-redux";
+import { isOpenSlidebar } from "../../assets/logic/features/toggleSlice";
+import { getUser } from "../../assets/logic/features/userSlice";
 
 import Menu from "./Menu";
+import SidebarSearch from "./SidebarSearch";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -9,12 +13,21 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
 
-  const { user } = ChatState();
+  const slider = useSelector(isOpenSlidebar);
+  const user = useSelector(getUser);
 
+if(slider){
+  // click function work in Menu.jsx and here i change this component
+  return (
+    
+    <div className="basis-[380px]  border-r border-r-slate-700 text-white">
+        <SidebarSearch />
+    </div>
+  );
+}
   return (
     <>
-      
-      <div className=" basis-[380px]  border-r border-r-slate-700 ">
+      <div className=" basis-[380px]  border-r border-r-slate-700 z-10">
         <div className="flex items-center justify-between bg-[#202c33] py-2 px-2 ">
           <div className="user h-[30px] w-[30px] bg-white rounded-full">
             <img src={user.pic} alt="" srcSet="" className="rounded-full" />
@@ -109,16 +122,9 @@ const SideDrawer = () => {
             ></path>
           </svg>
         </form>
-        {/* users  */}
+
         <div className="flex flex-col w-full mx-auto overflow-auto  h-4/5">
-          <div className=" my-2 p-1 px-2   flex items-center h-10">
-            <div className="user h-[35px] w-[40px] bg-slate-500 rounded-full"></div>
-            <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
-              <p className="text-sm font-sans font-medium ">Pawan</p>
-              <p className="text-xs text-slate-400">welcome boddy</p>
-            </div>
-          </div>
-          <hr className="h-px w-5/6 ml-auto bg-slate-700  border-0" />
+          {/* ---------------------------- */}
 
           <div className=" my-2 p-1 px-2   flex items-center h-10">
             <div className="user h-[35px] w-[40px] bg-slate-500 rounded-full"></div>
@@ -129,15 +135,7 @@ const SideDrawer = () => {
           </div>
           <hr className="h-px w-5/6 ml-auto bg-slate-700  border-0" />
 
-          <div className=" my-2 p-1 px-2   flex items-center h-10">
-            <div className="user h-[35px] w-[40px] bg-slate-500 rounded-full text-slate-200 "></div>
-            <div className="flex flex-col ml-5 text-slate-200  w-full border-slate-400">
-              <p className="text-sm font-sans font-medium ">Pawan</p>
-              <p className="text-xs text-slate-400">welcome boddy</p>
-            </div>
-          </div>
-
-          <hr className="h-px w-full bg-slate-700  border-0 mt-5" />
+          {/* -------------------------- */}
 
           <p className="text-[5px] text-slate-200  mx-auto my-2">
             <span>

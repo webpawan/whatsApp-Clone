@@ -7,7 +7,7 @@ const ChatBox = () => {
     <>
       <div
         style={{ backgroundImage: `url(${bgImage})` }}
-        className=" basis-9/12  bg-cover bg-no-repeat bg-center flex flex-col items-center justify-between"
+        className=" basis-9/12  bg-cover bg-no-repeat bg-center flex flex-col items-center justify-between z-10"
       >
         {/* ------------------- */}
         <div className="w-full flex items-center justify-between bg-[#202c33] py-2 px-4">
