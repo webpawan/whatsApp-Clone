@@ -5,7 +5,7 @@ import { closeSlidebar } from '../../assets/logic/features/toggleSlice';
 
 
 
-const SidebarSearch = () => {
+const SidebarGroup = () => {
   const dispatch = useDispatch();
   return (
     <>
@@ -21,7 +21,7 @@ const SidebarSearch = () => {
             opacity: 1,
             x: 0,
             delay: "5",
-            transition: { duration: .8 },
+            transition: { duration: .4 },
           }}
         >
           <p className="  mt-9 font-medium  flex items-center text-slate-200">
@@ -75,4 +75,4 @@ const SidebarSearch = () => {
   );
 }
 
-export default SidebarSearch
+export default SidebarGroup

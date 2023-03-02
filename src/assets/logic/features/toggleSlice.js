@@ -4,6 +4,7 @@ const initialState = {
   isOpenSlidebar: false,
   isModal: false,
   isUserPic: false,
+  isUserSearch:false
 };
 const toogleSlice = createSlice({
   name: "toolSlice",
@@ -27,13 +28,20 @@ const toogleSlice = createSlice({
     closeUserModalPic: (state) => {
       state.isUserPic = false;
     },
+    openUserFind: (state) => {
+      state.isUserSearch = true;
+    },
+    closeUserFind: (state) => {
+      state.isUserSearch = false;
+    },
   },
 });
 
 export default toogleSlice.reducer;
-export const { openSlidebar, closeSlidebar, openModal, closeModal ,openUserModalPic,closeUserModalPic} =
+export const { openSlidebar, closeSlidebar, openModal, closeModal ,openUserModalPic,closeUserModalPic,openUserFind,closeUserFind} =
   toogleSlice.actions;
 
 export const isOpenSlidebar = (state) => state.toogle.isOpenSlidebar;
 export const isModal = (state) => state.toogle.isModal;
 export const userModal = (state) => state.toogle.isUserPic;
+export const userSearch = (state) => state.toogle.isUserSearch;

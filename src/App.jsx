@@ -5,7 +5,6 @@ import SignIn from "./components/signin/SignIn";
 import { Route, Routes } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
-import SidebarSearch from "./components/pages/SidebarSearch";
 const App = () => {
   const location = useLocation();
 

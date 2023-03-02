@@ -6,7 +6,7 @@ import ChatBox from "../pages/ChatBox";
 import { useDispatch, useSelector } from "react-redux";
 import { isModal, closeModal, closeUserModalPic, userModal } from "../../assets/logic/features/toggleSlice";
 import { AnimatePresence, motion } from "framer-motion";
-import img from '../../assets/images/bg.png'
+
 const Chat = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,6 +18,13 @@ const Chat = () => {
       navigate("/");
     }
   }, [navigate]);
+
+  const logOut = () =>{
+dispatch(closeModal());
+localStorage.removeItem('userInfo');
+navigate('/');
+  }
+  
 
   const user = useSelector(getUser);
   const Modal = useSelector(isModal);
@@ -45,7 +52,7 @@ const Chat = () => {
                   >
                     CANCEL
                   </button>
-                  <button className="py-2  bg-[#00a884] px-5 text-xs text-black font-medium rounded-sm tracking-wider hover:bg-[#00be95] active:bg-[#00be95]">
+                  <button className="py-2  bg-[#00a884] px-5 text-xs text-black font-medium rounded-sm tracking-wider hover:bg-[#00be95] active:bg-[#00be95]" onClick={()=>logOut()}>
                     LOG OUT
                   </button>
                 </div>
@@ -61,7 +68,13 @@ const Chat = () => {
         {/* -------- big user picture component -------- */}
         <AnimatePresence>
           {userPic && (
-            <motion.div className="rounded-sm  bg-[#1c2328] text-white z-40 w-1/3 absolute left-2/3 h-[96%] border-l border-l-slate-700" initial={{opacity:0,x:-200}} animate={{opacity:1,x:0}} exit={{opacity:0,x:100,scale:0.3}} transition={{duration:.7}}>
+            <motion.div
+              className="rounded-sm  bg-[#1c2328] text-white z-40 w-1/3 absolute left-2/3 h-[96%] border-l border-l-slate-700"
+              initial={{ opacity: 0, x: -200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 100, scale: 0.3 }}
+              transition={{ duration: 0.3 }}
+            >
               <div className="flex flex-col">
                 <div className="flex items-center  bg-[#202c33] py-3 px-2 ">
                   <button
@@ -72,12 +85,18 @@ const Chat = () => {
                   </button>
                   <p className="text-sm ml-2 text-slate-200">Contact info</p>
                 </div>
-                <div className="py-6  bg-[rgba(17,27,33,0.94)] flex flex-col items-center justify-center">
+                <motion.div
+                  className="py-6  bg-[rgba(17,27,33,0.94)] flex flex-col items-center justify-center"
+                  transition={{ delay: .5 }}
+                  initial={{ y: -100, opacity: 0 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -100 }}
+                >
                   <img src={user.pic} className="rounded-full w-48 h-48" />
                   <h1 className="mt-2 text-2xl font-normal text-slate-200">
                     {user.name}
                   </h1>
-                </div>
+                </motion.div>
                 <div className="py-8 my-2 bg-[rgba(17,27,33,0.94)]"></div>
               </div>
             </motion.div>

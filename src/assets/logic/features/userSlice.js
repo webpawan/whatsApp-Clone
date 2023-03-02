@@ -11,7 +11,8 @@ const userSlice = createSlice({
     setUser: (state, action) => {
       state.userInfo = action.payload;
     },
- 
+    
+  
     
   },
 });

@@ -12,7 +12,7 @@ const dispatch = useDispatch();
   return (
     <>
       <button
-        className=" w-full p-1 rounded-full   text-white hover:bg-slate-700/[0.6] focus:outline-none   font-medium text-sm  text-center relative"
+        className=" px-3 p-1 rounded-full   text-white hover:bg-slate-700/[0.6] active:bg-slate-700/[0.6]focus:outline-none   font-medium text-sm  text-center relative"
         type="button"
         onClick={() => setShow(!show)}
       >
@@ -49,7 +49,6 @@ const dispatch = useDispatch();
 
         <AnimatePresence></AnimatePresence>
       </button>
-      
     </>
   );
 };
