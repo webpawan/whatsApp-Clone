@@ -1,30 +1,35 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { isOpenSlidebar, openUserFind, userSearch } from "../../assets/logic/features/toggleSlice";
-import { getUser } from "../../assets/logic/features/userSlice";
+import {
+  isOpenSlidebar,
+  openUserFind,
+  userSearch,
+} from "../../assets/logic/features/toggleSlice";
+import { getChats, getSelectedChat, getUser } from "../../assets/logic/features/userSlice";
 
 import Menu from "./Menu";
+import MyChat from "./MyChat";
 import SidebarFindUser from "./SidebarFindUser";
 import SidebarGroup from "./SidebarGroup";
 
 const SideDrawer = () => {
-  const [search, setSearch] = useState("");
-  const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState();
 
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const slider = useSelector(isOpenSlidebar);
   const user = useSelector(getUser);
-const isUserSearch = useSelector(userSearch)
-  
+  const isUserSearch = useSelector(userSearch);
 
-if(isUserSearch){
-   return <div className="basis-[380px]  border-r border-r-slate-700 text-white z-10">
-    <SidebarFindUser/>
-   </div>; 
-}
+ 
+  if (isUserSearch) {
+    return (
+      <div className="basis-[380px]  border-r border-r-slate-700 text-white z-10">
+        <SidebarFindUser />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -133,15 +138,8 @@ if(isUserSearch){
           <div className="flex flex-col w-full mx-auto overflow-auto  h-4/5">
             {/* ---------------------------- */}
 
-            <div className=" my-2 p-1 px-2   flex items-center h-10">
-              <div className="user h-[35px] w-[40px] bg-slate-500 rounded-full"></div>
-              <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
-                <p className="text-sm font-sans font-medium ">Pawan</p>
-                <p className="text-xs text-slate-400">welcome boddy</p>
-              </div>
-            </div>
-            <hr className="h-px w-5/6 ml-auto bg-slate-700  border-0" />
-
+           <MyChat/>
+           
             {/* -------------------------- */}
 
             <p className="text-[5px] text-slate-200  mx-auto my-2">

@@ -1,15 +1,68 @@
 import { motion } from "framer-motion";
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   closeUserFind,
-  isOpenSlidebar,
   openSlidebar,
 } from "../../assets/logic/features/toggleSlice";
-
+import axios from "axios";
+import LoadingSkeleton from "./LoadingSkeleton";
+import UserListItem from "./UserListItem";
+import { useNavigate } from "react-router-dom";
+import {
+  getChats,
+  setChats,
+  setSelectedChat,
+} from "../../assets/logic/features/userSlice";
 const SidebarFindUser = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [searchResult, setSearchResult] = useState();
+  const [loadingchat, setLoadingchat] = useState(false);
+
+  const getChat = useSelector(getChats);
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    if (!search) {
+      alert("please enter someting ");
+    }
+
+    try {
+      setLoading(true);
+      const { data } = await axios.get(`/api/user?search=${search}`);
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {
+      alert("faild to load api");
+      console.log(error);
+    }
+  };
+
+  const accessChat = async (userId) => {
+    try {
+      setLoadingchat(true);
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+        },
+      };
+
+      const { data } = await axios.post(`/api/chat`, { userId });
+      console.log(data);
+      // if(!getChat.find((c)=>c._id === data._id)) dispatch(setChats([data,...chats]))
+
+      console.log(getChat);
+      setLoadingchat(false);
+      dispatch(setSelectedChat(data));
+      dispatch(closeUserFind());
+    } catch (error) {
+      alert("problem with select chat try once again");
+    }
+  };
   return (
     <>
       <motion.div
@@ -39,17 +92,20 @@ const SidebarFindUser = () => {
         </motion.div>
         <form className="flex   m-[5px] ml-2 w-full  items-center   mx-auto ">
           <div className=" flex  items-center w-[95%] ">
-            <label
+            <button
               htmlFor=""
               className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400  text-xs "
+              onClick={(e) => handleSearch(e)}
             >
               <i className="fa-solid fa-magnifying-glass"></i>
-            </label>
+            </button>
 
             <input
               type="text"
               placeholder="search or start new chat "
               className="w-full py-[7px]  focus:outline-none text-slate-200 bg-[#202c33] text-xs rounded-r-md"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
         </form>
@@ -58,10 +114,9 @@ const SidebarFindUser = () => {
 
         <div className="flex flex-col w-full mx-auto overflow-auto  h-4/5">
           <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
-
           <div
             className=" py-7 p-1 px-2   flex items-center h-10 hover:bg-slate-800"
-            onClick={() => dispatch(openSlidebar(),dispatch(closeUserFind()))}
+            onClick={() => dispatch(openSlidebar(), dispatch(closeUserFind()))}
           >
             <div className=" h-[40px] w-[50px]  rounded-full bg-[#00a07d] flex items-center justify-center">
               <svg
@@ -84,7 +139,6 @@ const SidebarFindUser = () => {
           </div>
           <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
           <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
-
           <div className="py-7 p-1 px-2  flex items-center  h-10 hover:bg-slate-800">
             <div className="user flex items-center justify-center  h-[40px] w-[50px] bg-[#00a07d] rounded-full">
               <i className="fa-solid fa-user-group"></i>
@@ -95,22 +149,26 @@ const SidebarFindUser = () => {
             </div>
           </div>
           <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
-
           <div className="mt-5 mb-2 px-2 p-1 ml-4 text-[#00a07d]">
             <p>contact on whatsapp</p>
           </div>
           {/* ---------------------------- */}
           <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
 
-          <div className=" my-2 p-1 px-2   flex items-center h-10">
-            <div className="user h-[40px] w-[50px] bg-slate-500 rounded-full"></div>
-            <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
-              <p className="text-sm font-sans font-medium ">Pawan</p>
-              <p className="text-xs text-slate-400">welcome boddy</p>
-            </div>
-          </div>
-          <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
-
+          {loading ? (
+            <LoadingSkeleton />
+          ) : (
+            searchResult?.map((user) => {
+              return (
+                <UserListItem
+                  key={user._id}
+                  user={user}
+                  handleFunction={() => accessChat(user._id)}
+                />
+              );
+            })
+          )}
+          {loadingchat && <h1>loading</h1>}
           {/* -------------------------- */}
         </div>
       </motion.div>
