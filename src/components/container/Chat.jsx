@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUser, setUser } from "../../assets/logic/features/userSlice";
-import SideDrawer from "../../components/pages/SideDrawer";
+import SideDrawer from "../pages/MainSidebarComponents/SideDrawer";
 import ChatBox from "../pages/ChatBox";
 import { useDispatch, useSelector } from "react-redux";
 import { isModal, closeModal, closeUserModalPic, userModal } from "../../assets/logic/features/toggleSlice";

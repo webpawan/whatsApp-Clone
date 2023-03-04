@@ -1,13 +1,15 @@
 import { AnimatePresence, motion } from "framer-motion";
 
 import React, { useState } from "react";
-import { useDispatch,  } from "react-redux";
-import {  openModal, openSlidebar } from "../../assets/logic/features/toggleSlice";
+import { useDispatch } from "react-redux";
+import {
+  openModal,
+  openSlidebar,
+} from "../../../assets/logic/features/toggleSlice";
 const Menu = () => {
   const [show, setShow] = useState(false);
-  const [isBoxOpen, setIsBoxOpen] = useState(false)
-const dispatch = useDispatch();
-
+  const [isBoxOpen, setIsBoxOpen] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <>

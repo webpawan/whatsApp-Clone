@@ -4,16 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   closeUserFind,
   openSlidebar,
-} from "../../assets/logic/features/toggleSlice";
+} from "../../../assets/logic/features/toggleSlice";
 import axios from "axios";
-import LoadingSkeleton from "./LoadingSkeleton";
+import LoadingSkeleton from "../loadingState/LoadingSkeleton";
 import UserListItem from "./UserListItem";
 import { useNavigate } from "react-router-dom";
 import {
   getChats,
   setChats,
   setSelectedChat,
-} from "../../assets/logic/features/userSlice";
+} from "../../../assets/logic/features/userSlice";
 const SidebarFindUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();

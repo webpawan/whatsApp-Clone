@@ -12,33 +12,7 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const [pic, setPic] = useState();
 
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    if (!name || !email || !password) {
-      return alert("fill all the fields");
-    }
-
-    try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-
-      const { data } = await axios.post(
-        "/api/user/register",
-        { name, email, password, pic },config);
-      if (data) {
-        setLoading(false);
-        localStorage.setItem('userInfo',JSON.stringify(data))
-        navigate('/chat')
-        return alert("registration successfull");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ 
   const postDetails = (pics) => {
     setLoading(true);
     if (pics === undefined) {
@@ -50,7 +24,6 @@ const SignIn = () => {
       alert("please select image");
       return;
     }
-
     const data = new FormData();
     data.append("file", pics);
     data.append("upload_preset", "chatApp");
@@ -69,6 +42,31 @@ const SignIn = () => {
         setLoading(false);
       });
   };
+
+   const submitHandler = async (e) => {
+     e.preventDefault();
+     setLoading(true);
+     if (!name || !email || !password) {
+       return alert("fill all the fields");
+     }
+
+     try {
+  
+       const { data } = await axios.post(
+         "/api/user/register",
+         { name, email, password, pic },
+         
+       );
+       if (data) {
+         setLoading(false);
+         localStorage.setItem("userInfo", JSON.stringify(data));
+         navigate("/chat");
+         return alert("registration successfull");
+       }
+     } catch (error) {
+       console.log(error);
+     }
+   };
 
   return (
     <>
