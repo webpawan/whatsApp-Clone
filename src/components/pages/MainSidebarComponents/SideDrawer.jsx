@@ -11,11 +11,10 @@ import {
   getUser,
 } from "../../../assets/logic/features/userSlice";
 import MainSidebarIcons from "../sidebarIconComponents/MainSidebarIcons";
-
-import Menu from "../sidebarIconComponents/Menu";
-import MyChat from "../singleChatComponents/MyChat";
-import SidebarFindUser from "../singleChatComponents/SidebarFindUser";
 import SidebarGroup from "../sidebarGroupChat/SidebarGroup";
+import Menu from "../sidebarIconComponents/Menu";
+import SidebarFindUser from "../sidebarSingleChatComponents/SidebarFindUser";
+import MyChat from "../sidebarSingleChatComponents/MyChat";
 
 const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
@@ -40,10 +39,10 @@ const SideDrawer = () => {
           <SidebarGroup />
         </div>
       ) : (
-        <div className=" basis-[380px]  border-r border-r-slate-700 z-10">
-          <div className="flex items-center justify-between bg-[#202c33] py-2 pl-3">
-            <div className="user h-[30px] w-[30px] bg-white rounded-full">
-              <img src={user.pic} alt="" srcSet="" className="rounded-full" />
+        <div className="w-full  sm:basis-1/3  border-r border-r-slate-700 z-10 ">
+          <div className="flex items-center justify-between bg-[#202c33] py-3 pl-3">
+            <div className="user h-[30px] w-[30px] bg-white rounded-full bg-center bg-cover">
+              <img src={user.pic} alt="" srcSet="" className="rounded-full h-full w-full " />
             </div>
             <div className="icons flex  items-center w-2/5 ">
               <MainSidebarIcons />

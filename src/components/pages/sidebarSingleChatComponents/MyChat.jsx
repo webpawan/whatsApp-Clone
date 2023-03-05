@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchAgain } from "../../../assets/logic/features/groupSlice";
 
 import {
   getChats,
@@ -31,7 +32,8 @@ const MyChat = () => {
       }
     };
     fetchChat();
-  }, []);
+    dispatch(fetchAgain())
+  }, [dispatch]);
 
   return (
     <>
@@ -47,11 +49,9 @@ const MyChat = () => {
                 }
                 onClick={() => dispatch(setSelectedChat(chat))}
               >
-                <img
-                  src={chat.users[1].pic}
-                  className="user h-8 bg-slate-500 rounded-full"
-                  alt=""
-                />
+                <div className="h-8 w-10  rounded-full">
+                  <img src={chat.users[1].pic} className="h-full w-full rounded-full" alt="" />
+                </div>
                 <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
                   <p className="text-sm font-sans font-medium ">
                     {!chat.isGroupChat ? chat.users[1].name : chat.chatName}

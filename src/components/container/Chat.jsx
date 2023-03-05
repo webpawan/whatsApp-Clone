@@ -2,10 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUser, setUser } from "../../assets/logic/features/userSlice";
 import SideDrawer from "../pages/MainSidebarComponents/SideDrawer";
-import ChatBox from "../pages/ChatBox";
 import { useDispatch, useSelector } from "react-redux";
-import { isModal, closeModal, closeUserModalPic, userModal } from "../../assets/logic/features/toggleSlice";
+import {
+  isModal,
+  closeModal,
+  closeUserModalPic,
+  userModal,
+} from "../../assets/logic/features/toggleSlice";
 import { AnimatePresence, motion } from "framer-motion";
+import ChatBox from "../pages/chatPages/ChatBox";
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -19,19 +24,18 @@ const Chat = () => {
     }
   }, [navigate]);
 
-  const logOut = () =>{
-dispatch(closeModal());
-localStorage.removeItem('userInfo');
-navigate('/');
-  }
-  
+  const logOut = () => {
+    dispatch(closeModal());
+    localStorage.removeItem("userInfo");
+    navigate("/");
+  };
 
   const user = useSelector(getUser);
   const Modal = useSelector(isModal);
   const userPic = useSelector(userModal);
   return (
     <>
-      <div className="flex justify-center h-screen w-full bg-[rgb(17,27,33)] p-4 ">
+      <div className="flex justify-center h-screen w-full bg-[rgb(17,27,33)] sm:p-4 relative">
         <AnimatePresence>
           {Modal && (
             <div className="z-30 bg-[rgba(17,27,33,0.88)] absolute w-full h-[95%]  mx-auto">
@@ -52,7 +56,10 @@ navigate('/');
                   >
                     CANCEL
                   </button>
-                  <button className="py-2  bg-[#00a884] px-5 text-xs text-black font-medium rounded-sm tracking-wider hover:bg-[#00be95] active:bg-[#00be95]" onClick={()=>logOut()}>
+                  <button
+                    className="py-2  bg-[#00a884] px-5 text-xs text-black font-medium rounded-sm tracking-wider hover:bg-[#00be95] active:bg-[#00be95]"
+                    onClick={() => logOut()}
+                  >
                     LOG OUT
                   </button>
                 </div>
@@ -63,7 +70,7 @@ navigate('/');
         {/* ---------- log out components -------*/}
 
         {user && <SideDrawer />}
-        {user && <ChatBox />}
+        {user && <ChatBox/>}
 
         {/* -------- big user picture component -------- */}
         <AnimatePresence>
@@ -87,7 +94,7 @@ navigate('/');
                 </div>
                 <motion.div
                   className="py-6  bg-[rgba(17,27,33,0.94)] flex flex-col items-center justify-center"
-                  transition={{ delay: .5 }}
+                  transition={{ delay: 0.5 }}
                   initial={{ y: -100, opacity: 0 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -100 }}
@@ -102,6 +109,183 @@ navigate('/');
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* <div className="rounded-sm  bg-[#0c1317] text-white z-40 absolute w-[30%]  h-[96%] border-l border-l-slate-700 right-2 overflow-y-scroll">
+          <div className="flex flex-col">
+            <div className="flex items-center  bg-[#202c33] py-4 px-2 fixed w-[30%]  ">
+              <button
+                className="text-slate-400 mx-4 text-lg"
+                onClick={() => dispatch(closeUserModalPic())}
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+              <p className=" ml-2 text-slate-200">Group info</p>
+            </div>
+            <motion.div
+              className=" mt-16 py-8  bg-[rgba(17,27,33,0.94)] flex flex-col items-center justify-center"
+              transition={{ delay: 0.5 }}
+              initial={{ y: -100, opacity: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -100 }}
+            >
+              <img
+                src={user.pic}
+                className="rounded-full w-48 h-48 bg-cover bg-center"
+              />
+              <h1 className="mt-2 text-2xl font-normal text-slate-200">
+                {user.name}
+              </h1>
+              <p className="text-slate-300">group . 2 participents</p>
+            </motion.div>
+            <div className="py-4 px-10 my-2 bg-[rgba(17,27,33,0.94)]">
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center w-1/2 justify-between ">
+                  <span className="text-sm text-slate-400">
+                    <i class="fa-solid fa-star"></i>
+                  </span>
+                  <p className="text-lg mr-5">Started message</p>
+                </div>
+                <span className="text-sm">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </span>
+              </div>
+              <div className="flex items-center justify-between mb-8 bg-[#111b21]">
+                <div className="flex items-center w-1/2 justify-between ">
+                  <span className=" text-slate-400">
+                    <i class="fa-solid fa-bell"></i>
+                  </span>
+                  <p className="text-lg mr-2">Mute notifications</p>
+                </div>
+                <span className="text-sm">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </span>
+              </div>{" "}
+              <div className="flex items-center justify-between mb-8 ">
+                <div className="flex items-top w-full justify-between ">
+                  <span className="text-sm mt-[6px]  text-slate-400">
+                    <i class="fa-solid fa-lock"></i>
+                  </span>
+                  <div className="flex flex-col m-0 p-0  ml-6">
+                    <p className="text-lg  ">Encryption</p>
+                    <p className="text-sm w-4/5 ">
+                      Message are end-to-end encrypted. Click to learn more.
+                    </p>
+                  </div>
+                </div>
+                <span className="text-sm">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </span>
+              </div>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center w-1/2 justify-between ">
+                  <span className="">
+                    <i class="fa-solid fa-gear  text-slate-400"></i>
+                  </span>
+                  <p className="text-lg mr-5">Started message</p>
+                </div>
+                <span className="text-sm">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </span>
+              </div>
+            </div>
+            <div className="py-4 px-10 my-2 bg-[rgba(17,27,33,0.94)]">
+              <div className="flex items-center justify-between mb-4">
+                <p className="texty-sm text-slate-400">2 participants</p>
+                <span className="text-xs">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </span>
+              </div>
+              <div className="flex flex-col w-full mx-auto overflow-auto  h-4/5">
+                <div
+                  className=" py-7    flex items-center h-10 hover:bg-slate-800"
+                  onClick={() =>
+                    dispatch(openSlidebar(), dispatch(closeUserFind()))
+                  }
+                >
+                  <div className=" h-[40px] w-[50px]  rounded-full bg-[#00a07d] flex items-center justify-center">
+                    <span>
+                      <i class="fa-solid fa-user-plus"></i>
+                    </span>
+                  </div>
+                  <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400 ">
+                    <p className="text-sm font-sans font-medium  ">
+                      Add Participents
+                    </p>
+                  </div>
+                </div>
+
+                <div className="py-7   flex items-center  h-10 hover:bg-slate-800">
+                  <div className="user flex items-center justify-center  h-[40px] w-[50px] bg-[#00a07d] rounded-full">
+                    <i class="fa-solid fa-link"></i>
+                  </div>
+
+                  <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
+                    <p className="text-sm font-sans font-medium ">
+                      Invite to group via link
+                    </p>
+                  </div>
+                </div>
+
+                <div className="my-1">
+                  <div
+                    className={`py-7   flex items-center h-10 hover:cursor-pointer `}
+                  >
+                    <img
+                      className="user h-8 bg-slate-500 p-5 rounded-full"
+                      alt=""
+                    />
+                    <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
+                      <p className="text-sm font-sans font-medium ">user</p>
+                      <p className="text-xs text-slate-400">welcome boddy</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="my-1">
+                  <div
+                    className={`py-7   flex items-center h-10 hover:cursor-pointer `}
+                  >
+                    <img
+                      className="user h-8 bg-slate-500 p-5 rounded-full"
+                      alt=""
+                    />
+                    <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
+                      <p className="text-sm font-sans font-medium ">user</p>
+                      <p className="text-xs text-slate-400">welcome boddy</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="my-1">
+                  <div
+                    className={`py-7   flex items-center h-10 hover:cursor-pointer `}
+                  >
+                    <img
+                      className="user h-8 bg-slate-500 p-5 rounded-full"
+                      alt=""
+                    />
+                    <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
+                      <p className="text-sm font-sans font-medium ">user</p>
+                      <p className="text-xs text-slate-400">welcome boddy</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="my-1">
+                  <div
+                    className={`py-7   flex items-center h-10 hover:cursor-pointer `}
+                  >
+                    <img
+                      className="user h-8 bg-slate-500 p-5 rounded-full"
+                      alt=""
+                    />
+                    <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
+                      <p className="text-sm font-sans font-medium ">user</p>
+                      <p className="text-xs text-slate-400">welcome boddy</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> */}
       </div>
     </>
   );
