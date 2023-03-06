@@ -23,6 +23,7 @@ const SideDrawer = () => {
   const slider = useSelector(isOpenSlidebar);
   const user = useSelector(getUser);
   const isUserSearch = useSelector(userSearch);
+const selectedChat = useSelector(getSelectedChat);
 
   if (isUserSearch) {
     return (
@@ -39,10 +40,11 @@ const SideDrawer = () => {
           <SidebarGroup />
         </div>
       ) : (
-        <div className="w-full  sm:basis-1/3  border-r border-r-slate-700 z-10 ">
+        <div className={ selectedChat._id ? `w-0 hidden  sm:basis-1/3  border-r border-r-slate-700 z-10 sm:w-full sm:block ` : `w-full  sm:basis-1/3  border-r border-r-slate-700 z-10 `}>
           <div className="flex items-center justify-between bg-[#202c33] py-3 pl-3">
-            <div className="user h-[30px] w-[30px] bg-white rounded-full bg-center bg-cover">
-              <img src={user.pic} alt="" srcSet="" className="rounded-full h-full w-full " />
+            <div className="user flex items-center h-[30px] w-[30px] bg-white rounded-full bg-center bg-cover">
+              <img src={user.pic} alt="" srcSet="" className="rounded-full h-full w-full bg-center bg-cover" />
+            <p className="mx-3 text-slate-100 sm:hidden">{user.name}</p>
             </div>
             <div className="icons flex  items-center w-2/5 ">
               <MainSidebarIcons />
