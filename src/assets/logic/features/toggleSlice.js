@@ -6,6 +6,9 @@ const initialState = {
   isUserPic: false,
   isUserSearch: false,
   isGroupCreate: false,
+  isGroupUserModal: false,
+  count:0,
+  
 };
 const toogleSlice = createSlice({
   name: "toolSlice",
@@ -47,6 +50,15 @@ const toogleSlice = createSlice({
     closeGroupCom: (state) => {
       state.isGroupCreate = false;
     },
+    openGroupUserModal: (state) => {
+      state.isGroupUserModal = true;
+    },
+    closeGroupUserModal: (state) => {
+      state.isGroupUserModal = false;
+    },
+   renderComByCount:(state) =>{
+    state.count += 1;
+   }
   },
 });
 
@@ -62,6 +74,9 @@ export const {
   closeUserFind,
   openGroupCom,
   closeGroupCom,
+  openGroupUserModal,
+  closeGroupUserModal,
+  renderComByCount
 } = toogleSlice.actions;
 
 export const isOpenSlidebar = (state) => state.toogle.isOpenSlidebar;
@@ -69,3 +84,5 @@ export const isModal = (state) => state.toogle.isModal;
 export const userModal = (state) => state.toogle.isUserPic;
 export const userSearch = (state) => state.toogle.isUserSearch;
 export const getGroupCreate = (state) => state.toogle.isGroupCreate;
+export const getGroupUserModal = (state) => state.toogle.isGroupUserModal;
+export const getCount = (state) => state.toogle.count;

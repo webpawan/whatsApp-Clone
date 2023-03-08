@@ -1,6 +1,7 @@
 import React from 'react'
 
 const SelectedUser = ({ user, handleFunction }) => {
+
   return (
     <>
       <div className="flex items-center m-2">

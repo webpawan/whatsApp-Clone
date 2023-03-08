@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   closeGroupCom,
   closeSlidebar,
+  getCount,
   getGroupCreate,
   openGroupCom,
 } from "../../../assets/logic/features/toggleSlice";
@@ -51,9 +52,6 @@ const SidebarGroup = () => {
   };
 
   const handleSubmit = async () =>{
-console.log("hy");
-   console.log(groupChatName);
-
 if(!groupChatName){
   return alert("please selet group name");
 }
@@ -63,6 +61,7 @@ try {
     name:groupChatName,
     users:JSON.stringify(selectUser.map((user)=>user._id))
   })
+  
   dispatch(setChats([data,...chat]))
 dispatch(closeGroupCom());
 dispatch(closeSlidebar());
@@ -74,6 +73,9 @@ alert("group created");
 }
 
   }
+
+const count = useSelector(getCount);
+
   if (GroupCreate) {
    return (
      <AnimatePresence>
@@ -118,7 +120,7 @@ alert("group created");
              className="bg-transparent border-b border-b-slate-100 pb-1 w-[90%] placeholder:text-xs focus:outline-none text-sm"
              placeholder="Group Name "
              onChange={(e) => setGroupChatName(e.target.value)}
-             value={groupChatName}
+         
            />
          </div>
          <hr className="h-px w-5/6 ml-auto   border-0" />

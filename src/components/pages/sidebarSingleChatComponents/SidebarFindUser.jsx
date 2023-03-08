@@ -1,9 +1,11 @@
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   closeUserFind,
+  getCount,
   openSlidebar,
+  renderComByCount,
 } from "../../../assets/logic/features/toggleSlice";
 import axios from "axios";
 import LoadingSkeleton from "../loadingState/LoadingSkeleton";
@@ -17,6 +19,8 @@ import {
 const SidebarFindUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+const count = useSelector(getCount);
+console.log(count);
 
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,7 +59,7 @@ const SidebarFindUser = () => {
       console.log(data);
       // if(!getChat.find((c)=>c._id === data._id)) dispatch(setChats([data,...chats]))
 
-      console.log(getChat);
+      
       setLoadingchat(false);
       dispatch(setSelectedChat(data));
       dispatch(closeUserFind());
@@ -63,6 +67,11 @@ const SidebarFindUser = () => {
       alert("problem with select chat try once again");
     }
   };
+
+
+  useEffect(()=>{
+
+  },[count])
   return (
     <>
       <motion.div
@@ -90,7 +99,10 @@ const SidebarFindUser = () => {
             New chat
           </p>
         </motion.div>
-        <form className="flex   m-[5px] ml-2 w-full  items-center   mx-auto ">
+        <div className="flex   m-[5px] ml-2 w-full  items-center   mx-auto ">
+          {/* <button onClick={() => dispatch(renderComByCount())}>
+            increment
+          </button> */}
           <div className=" flex  items-center w-[95%] ">
             <button
               htmlFor=""
@@ -108,7 +120,7 @@ const SidebarFindUser = () => {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-        </form>
+        </div>
 
         <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
 
@@ -159,6 +171,7 @@ const SidebarFindUser = () => {
             <LoadingSkeleton />
           ) : (
             searchResult?.map((user) => {
+              console.log(user);
               return (
                 <UserListItem
                   key={user._id}

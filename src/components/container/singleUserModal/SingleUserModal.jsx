@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { closeInfoModal, userModal } from "../../../assets/logic/features/toggleSlice";
+import { closeInfoModal, getCount, userModal } from "../../../assets/logic/features/toggleSlice";
 import { getSelectedChat, getUser } from "../../../assets/logic/features/userSlice";
 
 const SingleUserModal = () => {
@@ -11,19 +11,34 @@ const SingleUserModal = () => {
   const user = useSelector(getUser);
   const isUserModal = useSelector(userModal);
   const selectedChat = useSelector(getSelectedChat);
+;
+const count = useSelector(getCount);
+useEffect(()=>{
 
-  console.log(selectedChat);
+},[count])
 
-console.log(isUserModal);
   return (
     <>
       <AnimatePresence>
         {isUserModal && (
           <motion.div
-            className="rounded-sm  bg-[#1c2328] text-white z-40 w-1/3 absolute left-2/3 h-[96%] border-l border-l-slate-700"
-            initial={{ opacity: 0, x: "-100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 100, scale: 0.3 }}
+            className="rounded-sm  bg-[#1c2328] text-white z-40 w-[30%] absolute right-1 h-[96%] border-l border-l-slate-700"
+            initial={{
+              opacity: 0,
+              x: "100%",
+              transition: { ease: "linear", duration: 0.3 },
+            }}
+            animate={{
+              opacity: 1,
+              x: 0,
+              transition: { ease: "linear", duration: 0.3 },
+            }}
+            exit={{
+              opacity: 0,
+              x: "100%",
+
+              transition: { ease: "linear", duration: 0.3 },
+            }}
             transition={{ duration: 0.3 }}
           >
             <div className="flex flex-col">
@@ -43,7 +58,10 @@ console.log(isUserModal);
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -100 }}
               >
-                <img src={selectedChat.users[1].pic} className="rounded-full w-48 h-48" />
+                <img
+                  src={selectedChat.users[1].pic}
+                  className="rounded-full w-48 h-48"
+                />
                 <h1 className="mt-2 text-2xl font-normal text-slate-200">
                   {selectedChat.users[1].name}
                 </h1>

@@ -1,14 +1,13 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAgain } from "../../../assets/logic/features/groupSlice";
+import { fetchAgain, isFetchAgain } from "../../../assets/logic/features/groupSlice";
+import { getCount } from "../../../assets/logic/features/toggleSlice";
 
 import {
   getChats,
   getSelectedChat,
-  getUser,
   setChats,
-  setcreateChatName,
   setSelectedChat,
 } from "../../../assets/logic/features/userSlice";
 import LoadingSkeleton from "../loadingState/LoadingSkeleton";
@@ -19,22 +18,23 @@ const MyChat = () => {
   const getselectChat = useSelector(getSelectedChat);
   const getChat = useSelector(getChats);
   const [loading, setLoading] = useState(false);
+const count = useSelector(getCount)
 
-  useState(() => {
-    const fetchChat = async () => {
-      try {
-        setLoading(true);
-        const { data } = await axios.get("/api/chat");
-        dispatch(setChats(data));
-        setLoading(false);
-      } catch (error) {
-        console.log("erro on fetching chat");
-      }
-    };
-    fetchChat();
-    dispatch(fetchAgain())
-  }, [dispatch]);
+  const fetchChat = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get("/api/chat");
+      dispatch(setChats(data));
+      setLoading(false);
+    } catch (error) {
+      console.log("erro on fetching chat");
+    }
+  };
+  
 
+useEffect(()=>{
+  fetchChat()
+},[count])
   return (
     <>
       {!loading ? (
@@ -50,7 +50,9 @@ const MyChat = () => {
                 onClick={() => dispatch(setSelectedChat(chat))}
               >
                 <div className="h-8 w-10  rounded-full">
-                  <img src={chat.users[1].pic} className="h-full w-full rounded-full" alt="" />
+                  {/* <img src={chat.users[1].pic} className="h-full w-full rounded-full" alt="" /> */}
+                  <div className="flex items-center justify-center p-3 py-4 rounded-full bg-slate-500"></div>
+                  {getselectChat.adminChat}
                 </div>
                 <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
                   <p className="text-sm font-sans font-medium ">

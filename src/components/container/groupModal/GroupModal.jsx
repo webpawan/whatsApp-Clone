@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
@@ -8,6 +8,10 @@ import {
   closeInfoModal,
   openSlidebar,
   userModal,
+  openGroupUserModal,
+  getGroupUserModal,
+  renderComByCount,
+  getCount,
 } from "../../../assets/logic/features/toggleSlice";
 import {
   getSelectedChat,
@@ -15,33 +19,51 @@ import {
   setSelectedChat,
 } from "../../../assets/logic/features/userSlice";
 import axios from "axios";
-import {
-  fetchAgain,
-  isFetchAgain,
-  setFetchAgain,
-} from "../../../assets/logic/features/groupSlice";
+
 const GroupModal = () => {
   const dispatch = useDispatch();
   const isUserModal = useSelector(userModal);
   const selectedChat = useSelector(getSelectedChat);
   const user = useSelector(getUser);
 
-  const [groupChanName, setGroupChanName] = useState(selectedChat.chatName);
-  const [search, setSearch] = useState();
-  const [searchRedult, setSearchRedult] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [groupChanName, setGroupChanName] = useState("");
   const [renameLoading, setrenameLoading] = useState(false);
-  const [editButton, setEditButton] = useState(true);
-  console.log(editButton);
+  const [loading, setLoading] = useState(false);
+  const [editing, setEditing] = useState(true);
+
   // --------------
+  console.log(selectedChat);
 
-  const handleRemove = (user) => {
-    console.log("hy");
+const logout = () =>{
+  
+}
+
+  const handleRemove = async (rmUser) => {
+    if (selectedChat.groupAdmin._id !== user._id && rmUser._id !== user._id) {
+      return alert("only admin can add someone");
+    }
+    try {
+      setLoading(true);
+      const { data } = await axios.put("/api/chat/groupremove", {
+        chatId: selectedChat._id,
+        userId: rmUser._id,
+      });
+      if (rmUser._id === user._id) {
+        setSelectedChat();
+        dispatch(closeInfoModal())
+      } else {
+        dispatch(setSelectedChat(data))
+
+      }
+      dispatch(renderComByCount());
+      setLoading(false);
+    } catch (error) {
+      console.log("problem with remove error");
+    }
   };
-
   const handleRename = async () => {
     if (!groupChanName) return;
-
+    console.log(groupChanName);
     try {
       setrenameLoading(true);
 
@@ -49,10 +71,12 @@ const GroupModal = () => {
         chatId: selectedChat._id,
         chatName: groupChanName,
       });
-console.log(data);
+
       dispatch(setSelectedChat(data));
-      // dispatch(setFetchAgain())
+      // dispatch(closeInfoModal())
+      dispatch(renderComByCount());
       setrenameLoading(false);
+      setEditing(true);
     } catch (error) {
       setrenameLoading(false);
       console.log(error);
@@ -61,15 +85,29 @@ console.log(data);
     setGroupChanName("");
   };
 
+
   return (
     <>
       <AnimatePresence>
         {isUserModal && (
           <motion.div
-            className="rounded-sm  bg-[#0c1317] text-white z-40 absolute w-[30%]  h-[96%] border-l border-l-slate-700 right-2 overflow-y-scroll"
-            initial={{ opacity: 0, x: "-100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 100, scale: 0.3 }}
+            className="rounded-sm  bg-[#0c1317] text-white z-40 absolute w-[30%]  h-[96%] border-l border-l-slate-700 right-2 overflow-y-scroll "
+            initial={{
+              opacity: 0,
+              x: "100%",
+              transition: { ease: "linear", duration: 0.3 },
+            }}
+            animate={{
+              opacity: 1,
+              x: 0,
+              transition: { ease: "linear", duration: 0.3 },
+            }}
+            exit={{
+              opacity: 0,
+              x: "100%",
+
+              transition: { ease: "linear", duration: 0.3 },
+            }}
             transition={{ duration: 0.3 }}
           >
             <div className="flex flex-col">
@@ -84,34 +122,44 @@ console.log(data);
               </div>
               <motion.div
                 className=" mt-16 py-8  bg-[rgba(17,27,33,0.94)] flex flex-col items-center justify-center"
-                transition={{ delay: 0.5 }}
+                transition={{ delay: 0.7 }}
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -100 }}
               >
-                <img
-                  src={selectedChat.users[1].pic}
-                  className="rounded-full w-48 h-48 bg-cover bg-center"
-                />
-                <div className="flex px-2 pb-2 pt-1 items-center ml-10">
-                  <input
-                    type="text"
-                    className={`pb-2 pt-1 bg-transparent hover:bg-slate-700 text-2xl font-normal text-slate-200 mx-auto text-center focus:outline-none hover:bg-transparent ${
-                      !editButton && "text-slate-50  "
-                    }`}
-                    value={groupChanName}
-                    onChange={(e) => setGroupChanName(e.target.value)}
-                    disabled={editButton}
-                  />
-                  <span
-                    className={` py-2 px-3 active:bg-slate-700 hover:bg-slate-700 rounded-full active:border-2 ${
-                      !editButton && "text-slate-500"
-                    }`}
-                    onClick={() => setEditButton(!editButton)}
-                  >
-                    <i className="fa-solid fa-pen"></i>
-                  </span>
-                  <span className=""></span>
+                <div className="rounded-full px-14 py-16 bg-cover bg-slate-700 d-flex items-center justify-center">
+                  Group
+                </div>
+                <div className="flex my-2 items-center ml-10">
+                  {editing ? (
+                    <div className="flex items-center justify-center">
+                      <h1 className="text-2xl mx-10  p-2 text-center">
+                        {selectedChat.chatName}
+                      </h1>
+                      <span
+                        className="hover:bg-slate-600 p-2 rounded-full px-3 hover:cursor-progress"
+                        onClick={() => setEditing(false)}
+                      >
+                        <i className="fa-solid fa-pen"></i>
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center my-2">
+                      {" "}
+                      <input
+                        type="text"
+                        className={` bg-transparent hover:bg-slate-700 text-2xl font-normal text-slate-300 mx-auto text-center focus:outline-none hover:bg-transparent border-b-2 border-b-slate-700`}
+                        onChange={(e) => setGroupChanName(e.target.value)}
+                        value={groupChanName}
+                      />
+                      <span
+                        className="hover:bg-slate-600 p-2 rounded-full px-3 active:cursor-progress focus:cursor-progress"
+                        onClick={handleRename}
+                      >
+                        <i className="fa-solid fa-pen"></i>
+                      </span>
+                    </div>
+                  )}
                 </div>
                 <p className="text-slate-300">
                   Group. {selectedChat.users.length} Participents
@@ -177,10 +225,8 @@ console.log(data);
                 </div>
                 <div className="flex flex-col w-full mx-auto overflow-auto  h-4/5 ">
                   <div
-                    className=" py-7    flex items-center h-10 hover:bg-slate-800 px-10"
-                    onClick={() =>
-                      dispatch(openSlidebar(), dispatch(closeUserFind()))
-                    }
+                    className=" py-7    flex items-center h-10 hover:bg-slate-800 hover:cursor-pointer px-10"
+                    onClick={() => dispatch(openGroupUserModal())}
                   >
                     <div className=" h-[40px] w-[50px]  rounded-full bg-[#00a07d] flex items-center justify-center">
                       <span>
@@ -211,7 +257,6 @@ console.log(data);
                       <div
                         className="my-1 group  hover:bg-slate-800 px-10"
                         key={user._id}
-                        onClick={() => handleRemove(user)}
                       >
                         <div
                           className={`py-7   flex items-center h-10 hover:cursor-pointer `}
@@ -229,7 +274,7 @@ console.log(data);
                               {user.email}
                             </p>
                           </div>
-                          <span>
+                          <span onClick={() => handleRemove(user)}>
                             <i className="fa-solid fa-angle-down"></i>
                           </span>
                         </div>

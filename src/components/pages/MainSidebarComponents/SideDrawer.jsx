@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getCount,
   isOpenSlidebar,
   openUserFind,
   userSearch,
@@ -23,7 +24,10 @@ const SideDrawer = () => {
   const slider = useSelector(isOpenSlidebar);
   const user = useSelector(getUser);
   const isUserSearch = useSelector(userSearch);
-const selectedChat = useSelector(getSelectedChat);
+  const selectedChat = useSelector(getSelectedChat);
+  const count = useSelector(getCount);
+
+  useEffect(() => {}, [count]);
 
   if (isUserSearch) {
     return (
@@ -40,11 +44,22 @@ const selectedChat = useSelector(getSelectedChat);
           <SidebarGroup />
         </div>
       ) : (
-        <div className={ selectedChat._id ? `w-0 hidden  sm:basis-1/3  border-r border-r-slate-700 z-10 sm:w-full sm:block ` : `w-full  sm:basis-1/3  border-r border-r-slate-700 z-10 `}>
+        <div
+          className={
+            selectedChat._id
+              ? `w-0 hidden  sm:basis-1/3  border-r border-r-slate-700 z-10 sm:w-full sm:block `
+              : `w-full  sm:basis-1/3  border-r border-r-slate-700 z-10 `
+          }
+        >
           <div className="flex items-center justify-between bg-[#202c33] py-3 pl-3">
             <div className="user flex items-center h-[30px] w-[30px] bg-white rounded-full bg-center bg-cover">
-              <img src={user.pic} alt="" srcSet="" className="rounded-full h-full w-full bg-center bg-cover" />
-            <p className="mx-3 text-slate-100 sm:hidden">{user.name}</p>
+              <img
+                src={user.pic}
+                alt=""
+                srcSet=""
+                className="rounded-full h-full w-full bg-center bg-cover"
+              />
+              <p className="mx-3 text-slate-100 sm:hidden">{user.name}</p>
             </div>
             <div className="icons flex  items-center w-2/5 ">
               <MainSidebarIcons />
@@ -93,6 +108,7 @@ const selectedChat = useSelector(getSelectedChat);
               Your personal message are{" "}
               <span className="text-sky-400 text-xs">end-to-end encrypted</span>
             </p>
+            --
           </div>
         </div>
       )}

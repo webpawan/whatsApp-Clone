@@ -7,23 +7,29 @@ import {
   isModal,
   closeModal,
   userModal,
+  closeGroupUserModal,
+  getGroupUserModal,
+  getCount,
 } from "../../assets/logic/features/toggleSlice";
 import { AnimatePresence, motion } from "framer-motion";
 import ChatBox from "../pages/chatPages/ChatBox";
 import GroupModal from "../container/groupModal/GroupModal";
 import SingleUserModal from "../container/singleUserModal/SingleUserModal";
+import GroupModalSidebar from "../container/groupModal/GroupModalSidebar";
 
 const Chat = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+const count = useSelector(getCount);
 
+  const selectedChat = useSelector(getSelectedChat);
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     dispatch(setUser(userInfo));
     if (!userInfo) {
       navigate("/");
     }
-  }, [navigate]);
+  }, [navigate,selectedChat,count]);
 
   const logOut = () => {
     dispatch(closeModal());
@@ -33,11 +39,11 @@ const Chat = () => {
 
   const user = useSelector(getUser);
   const Modal = useSelector(isModal);
-  const selectedChat = useSelector(getSelectedChat);
 
   return (
     <>
-      <div className="flex justify-center h-screen w-full bg-[rgb(17,27,33)] sm:p-4 relative">
+      <div className="flex justify-center  h-screen w-full bg-[rgb(17,27,33)] sm:p-4 relative overflow-hidden">
+        <GroupModalSidebar/>
         <AnimatePresence>
           {Modal && (
             <div className="z-30 bg-[rgba(17,27,33,0.88)] absolute w-full h-[95%]  mx-auto">
