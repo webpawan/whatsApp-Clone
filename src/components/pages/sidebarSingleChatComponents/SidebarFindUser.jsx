@@ -20,7 +20,6 @@ const SidebarFindUser = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 const count = useSelector(getCount);
-console.log(count);
 
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -56,7 +55,6 @@ console.log(count);
       };
 
       const { data } = await axios.post(`/api/chat`, { userId });
-      console.log(data);
       // if(!getChat.find((c)=>c._id === data._id)) dispatch(setChats([data,...chats]))
 
       
@@ -171,7 +169,6 @@ console.log(count);
             <LoadingSkeleton />
           ) : (
             searchResult?.map((user) => {
-              console.log(user);
               return (
                 <UserListItem
                   key={user._id}

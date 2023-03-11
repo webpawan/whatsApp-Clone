@@ -22,7 +22,6 @@ state.selectedChat = action.payload;
 state.chats = action.payload;
     },
     setcreateChatName:(state,action) =>{
-
     }
     
   },

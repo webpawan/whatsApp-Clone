@@ -32,7 +32,6 @@ const GroupModal = () => {
   const [editing, setEditing] = useState(true);
 
   // --------------
-  console.log(selectedChat);
 
 const logout = () =>{
   
