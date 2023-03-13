@@ -7,9 +7,11 @@ import { getCount } from "../../../assets/logic/features/toggleSlice";
 import {
   getChats,
   getSelectedChat,
+  getUser,
   setChats,
   setSelectedChat,
 } from "../../../assets/logic/features/userSlice";
+import { getSender, getSenderFull, getSenderPic } from "../../../assets/logic/LogicFunctions";
 import LoadingSkeleton from "../loadingState/LoadingSkeleton";
 
 const MyChat = () => {
@@ -35,10 +37,14 @@ const count = useSelector(getCount)
 useEffect(()=>{
   fetchChat()
 },[count])
+ const user = useSelector(getUser)
+
   return (
     <>
       {!loading ? (
         getChat.map((chat, i) => {
+          // const userFull = getSenderFull(user, getselectChat.users);
+
           return (
             <div className="my-1" key={i}>
               <div
@@ -49,18 +55,28 @@ useEffect(()=>{
                 }
                 onClick={() => dispatch(setSelectedChat(chat))}
               >
-                <div className="h-8 w-10  rounded-full">
-                  {/* <img src={chat.users[1].pic} className="h-full w-full rounded-full" alt="" /> */}
-                  <div className="flex items-center justify-center p-3 py-4 rounded-full bg-slate-500"></div>
+                <div className=" h-10 w-12 rounded-full">
+                  {!chat.isGroupChat ? (
+                    <img
+                      src={getSenderPic(user, chat.users)}
+                      className="h-full w-full rounded-full"
+                      alt=""
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center p-3 rounded-full bg-slate-500 text-white text-xs">
+                      Gp
+                    </div>
+                  )}
+
                   {getselectChat.adminChat}
                 </div>
                 <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
                   <p className="text-sm font-sans font-medium ">
-                    {!chat.isGroupChat ? chat.users[1].name : chat.chatName}
-                    {/* {!chat.isGroupChat ? getSender(chat.users) : chat.chatName} */}
-                    {/* ya condition me bug a  raha  */}
+                    {!chat.isGroupChat
+                      ? getSender(user, chat.users)
+                      : chat.chatName}
                   </p>
-                  <p className="text-xs text-slate-400">welcome boddy</p>
+                  <p className="text-xs text-slate-400">welcome </p>
                 </div>
               </div>
 

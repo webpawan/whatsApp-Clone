@@ -10,19 +10,19 @@ import {
   getUser,
   setSelectedChat,
 } from "../../../assets/logic/features/userSlice";
+import {  getSenderFull } from "../../../assets/logic/LogicFunctions";
 import ChatNotSelected from "../../../assets/svg/ChatNotSelected";
 import SingleChat from "./singleChat/SingleChat";
 
 
 const ChatBox = () => {
-
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const selectedChat = useSelector(getSelectedChat);
-console.log(selectedChat);
-const count = useSelector(getCount);
-useEffect(() => {}, [count]);
-  if(selectedChat._id){
+  const count = useSelector(getCount);
+  useEffect(() => {}, [count]);
+  if (selectedChat._id) {
+  const userFull = getSenderFull(user, selectedChat.users);
     return (
       <div
         style={{ backgroundImage: `url(${bgImage})` }}
@@ -51,7 +51,7 @@ useEffect(() => {}, [count]);
                 </p>
               ) : (
                 <img
-                  src={selectedChat.users[1].pic}
+                  src={userFull.pic}
                   className="w-[30px] h-[30px] rounded-full"
                 />
               )}
@@ -62,7 +62,7 @@ useEffect(() => {}, [count]);
               </p>
             ) : (
               <p className="text-sm font-medium font-sans text-white">
-                {selectedChat.users[1].name}
+                {userFull.name}
               </p>
             )}
           </div>
@@ -77,11 +77,12 @@ useEffect(() => {}, [count]);
         </div>
         {/* ------------------- */}
 
-       <SingleChat/>        
+        <SingleChat />
       </div>
-    ); 
+    );
   }
 
+ 
   return (
     <>
       <div className="basis-4/5 bg-[#222e35] bg-cover bg-no-repeat bg-center hidden flex-col items-center justify-center z-10 shrink sm:flex">
@@ -99,7 +100,7 @@ useEffect(() => {}, [count]);
           {" "}
           <span className="text-xs ">
             <i className="fa-solid fa-lock"></i>
-          </span>{" "} 
+          </span>{" "}
           End-to-end encrypted
         </p>
       </div>
