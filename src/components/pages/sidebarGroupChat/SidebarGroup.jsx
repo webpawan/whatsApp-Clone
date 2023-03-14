@@ -61,7 +61,6 @@ try {
     name:groupChatName,
     users:JSON.stringify(selectUser.map((user)=>user._id))
   })
-  
   dispatch(setChats([data,...chat]))
 dispatch(closeGroupCom());
 dispatch(closeSlidebar());
@@ -125,7 +124,10 @@ const count = useSelector(getCount);
          </div>
          <hr className="h-px w-5/6 ml-auto   border-0" />
          <div className=" relative  bg-[#111b21] mx-auto w-full h-1/4 flex justify-center items-top">
+          
+          
            <span
+          
              className="bg-[#00a884] h-10 w-10 flex justify-center items-center rounded-full text-sm"
              onClick={ handleSubmit}
            >

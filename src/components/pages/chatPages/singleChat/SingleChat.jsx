@@ -1,22 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getSelectedChat,
   getUser,
 } from "../../../../assets/logic/features/userSlice";
-import {
-  isLastMessage,
-  isSameSender,
-  isSameSenderMargin,
-  isSameUser,
-} from "./MessageLogic";
+import { isLastMessage, isSameSender, isSameUser } from "./MessageLogic";
 import { io } from "socket.io-client";
+import { isUserTyping } from "../../../../assets/logic/features/toggleSlice";
 
 const ENDPOINT = "http://localhost:3000";
 var socket, selectedChatCompare;
 
 const SingleChat = () => {
+  const dispatch = useDispatch();
   const selectdChat = useSelector(getSelectedChat);
   const user = useSelector(getUser);
 
@@ -24,8 +21,6 @@ const SingleChat = () => {
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState();
   const [typing, setTyping] = useState(false);
-  const [isTyping, setIsTyping] = useState(false);
-
   const [socketConnected, setSocketConnected] = useState(false);
 
   const fetchMessages = async () => {
@@ -51,8 +46,8 @@ const SingleChat = () => {
 
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
-    socket.on("typing", () => setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
+    socket.on("typing", () => dispatch(isUserTyping(true)));
+    socket.on("stop typing", () => dispatch(isUserTyping(false)));
   }, []);
 
   useEffect(() => {
@@ -62,14 +57,7 @@ const SingleChat = () => {
 
   useEffect(() => {
     socket.on("message recieved", (newMessageRecieved) => {
-      if (
-        !selectedChatCompare ||
-        selectedChatCompare._id !== newMessageRecieved.chat._id
-      ) {
-        // give Notification
-      } else {
-        setMessage([...message, newMessageRecieved]);
-      }
+      setMessage([...message, newMessageRecieved]);
     });
   });
 
@@ -82,7 +70,6 @@ const SingleChat = () => {
           content: newMessage,
           chatId: selectdChat._id,
         });
-        console.log(data);
         socket.emit("new Message", data);
         setMessage([...message, data]);
       } catch (error) {
@@ -115,6 +102,7 @@ const SingleChat = () => {
       }
     }, timeLenght);
   };
+
   return (
     <>
       <div className={` h-full  text-slate-100  w-full px-5 overflow-y-auto`}>
@@ -124,26 +112,39 @@ const SingleChat = () => {
           <div>
             {message &&
               message.map((m, i) => {
-                const marginLeft = isSameSenderMargin(message, m, i, user._id);
-                // give margin
                 const margintop = isSameUser(message, m, i, user._id);
-                //true || false isme true ha 3px barna 10px ayga
-
+                const isSentByCurrentUser = m.sender._id !== user._id;
+                const bgColorClass = isSentByCurrentUser
+                  ? "bg-[#202c33]"
+                  : "bg-[#005c4b]";
+                const alignClass = isSentByCurrentUser
+                  ? "self-end"
+                  : "self-start";
                 return (
                   <div key={i} className="text-white">
                     {(isSameSender(message, m, i, user.Id) ||
                       isLastMessage(message, i, user._id)) && (
-                      <p className="   rounded-full   "></p>
+                      <div
+                        className={` flex ${alignClass} ${
+                          isSentByCurrentUser ? "flex-row-reverse" : "flex-row"
+                        } `}
+                      >
+                        <img
+                          src={m.sender.pic}
+                          className={` w-5 rounded-full shadow-md ${bgColorClass} mb-0.5`}
+                        />
+                      </div>
                     )}
+
                     {
-                      <div className=" relative sm:text-sm w-full ">
+                      <div
+                        className={` flex ${alignClass} ${
+                          isSentByCurrentUser ? "flex-row-reverse" : "flex-row"
+                        } sm:text-sm`}
+                      >
                         <p
-                          style={{ marginTop: margintop ? "2px" : "30px" }}
-                          className={
-                            marginLeft === "justify-end"
-                              ? ` absolute top-0 right-1  inline-block bg-[#202c33] p-2 rounded-b-md rounded-tr-md `
-                              : `bg-[#005c4b] top-0 left-1 inline-block  p-2  justify-end text-right rounded-b-md rounded-tl-m`
-                          }
+                          style={{ marginTop: margintop ? "2px" : "20px" }}
+                          className={`max-w-xs mx-2 px-4 py-2 rounded-lg shadow-md ${bgColorClass}`}
                         >
                           {m.content}
                         </p>
@@ -167,7 +168,6 @@ const SingleChat = () => {
 
         {/* -------- */}
         <div className="flex items-center m-2 w-full rounded-md bg-slate-700 mx-auto">
-          {isTyping ? <div className="text-white text-2xl">loading.</div> : <></>}
           <input
             type="text"
             placeholder="search"

@@ -1,20 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import axios, { Axios } from "axios";
-
+import { toast, ToastContainer } from "react-toastify";
 const SignIn = () => {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState()
   const [pic, setPic] = useState();
 
- 
   const postDetails = (pics) => {
-    setLoading(true);
+     toast.info("image is uploading wait till image is not uploaded", {
+       position: "top-center",
+       autoClose: 1000,
+       hideProgressBar: false,
+       closeOnClick: true,
+       pauseOnHover: true,
+       draggable: true,
+       progress: undefined,
+       theme: "light",
+     });
     if (pics === undefined) {
       alert("something is wrong Try again");
       return;
@@ -35,41 +43,75 @@ const SignIn = () => {
       .then((res) => res.json())
       .then((data) => {
         setPic(data.url.toString());
-        setLoading(false);
+         toast.success("image uploaded", {
+           position: "top-center",
+           autoClose: 1500,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+         });
       })
       .catch((e) => {
         console.log(e);
-        setLoading(false);
+         toast.error("please try again some problem with server", {
+           position: "top-center",
+           // autoClose: 5000,
+           hideProgressBar: false,
+           closeOnClick: true,
+           pauseOnHover: true,
+           draggable: true,
+           progress: undefined,
+           theme: "light",
+         });
       });
   };
 
-   const submitHandler = async (e) => {
-     e.preventDefault();
-     setLoading(true);
-     if (!name || !email || !password) {
-       return alert("fill all the fields");
-     }
 
-     try {
-  
-       const { data } = await axios.post(
-         "/api/user/register",
-         { name, email, password, pic },
-         
-       );
-       if (data) {
-         setLoading(false);
-         localStorage.setItem("userInfo", JSON.stringify(data));
-         navigate("/chat");
-         return alert("registration successfull");
-       }
-     } catch (error) {
-       console.log(error);
-     }
-   };
 
+  const submitHandler = async (e) => {
+    e.preventDefault();
+       
+    if (!name || !email || !password) {
+      return toast.error("Fill the all fields", {
+        position: "top-center",
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      }); 
+    }
+
+    try {
+      const { data } = await axios.post("/api/user/register", {
+        name,
+        email,
+        password,
+        pic,
+      });
+      if (data) {
+        setLoading(0);
+       
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        navigate("/chat");
+        setLoading(1) 
+      }
+    } catch (error) {
+      console.log(error);
+      return alert("signin is successfull")
+    }
+  };
+
+ 
   return (
     <>
+      <div className="w-5">
+        <ToastContainer />
+      </div>
       <div className="h-screen relative bg-black">
         <div className="h-[222px] w-full bg-[#00a884]  absolute top-0">
           <div className="h-10  w-[880px] mx-auto mt-5 flex items-center">
@@ -106,7 +148,6 @@ const SignIn = () => {
                 to="/login"
                 className="text-[#00a884] border-2 border-[#00a884] mt-5 px-5 py-2 rounded-full hover:text-white s active:bg-[#00a884] hover:bg-[#00a884] hover:text-white transition-all
               shadow-md mr-3 text-sm active:shadow "
-                // onClick={submitHandler}
               >
                 Log In
               </NavLink>
@@ -128,18 +169,21 @@ const SignIn = () => {
                 placeholder="First Name"
                 onChange={(e) => setName(e.target.value)}
                 className=" px-2 py-1 mt-3 my-2 border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
+                required
               />
               <input
                 type="email"
                 placeholder="email"
                 onChange={(e) => setEmail(e.target.value)}
                 className=" px-2 py-1 my-2 border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
+                required
               />
               <input
                 type="password"
                 placeholder="password"
                 onChange={(e) => setPassword(e.target.value)}
                 className=" px-2 py-1 my-2 border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
+                required
               />
               <input
                 type="file"

@@ -9,6 +9,7 @@ const SelectedUser = ({ user, handleFunction }) => {
         <p className="text-xs mx-2">{user.name}</p>
         <span className="" onClick={ handleFunction}>
           <i className="fa-solid fa-xmark text-xs"></i>
+          
         </span>
       </div>
     </>

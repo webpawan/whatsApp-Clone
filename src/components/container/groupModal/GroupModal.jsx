@@ -38,6 +38,7 @@ const logout = () =>{
 }
 
   const handleRemove = async (rmUser) => {
+    
     if (selectedChat.groupAdmin._id !== user._id && rmUser._id !== user._id) {
       return alert("only admin can add someone");
     }
@@ -273,8 +274,11 @@ const logout = () =>{
                               {user.email}
                             </p>
                           </div>
-                          <span onClick={() => handleRemove(user)}>
-                            <i className="fa-solid fa-angle-down"></i>
+                          <span
+                            onClick={() => handleRemove(user)}
+                            className="p-2 hover:bg-slate-900 rounded-full active:cursor-progress focus:cursor-progress"
+                          >
+                            <i className="fa-solid fa-xmark text-red-800 hover:text-red-500"></i>
                           </span>
                         </div>
                       </div>

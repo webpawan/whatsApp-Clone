@@ -1,28 +1,33 @@
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import bgImage from "../../../assets/images/bg.png";
 
-import { getCount, openInfoModal } from "../../../assets/logic/features/toggleSlice";
+import {
+  getCount,
+  getTypingFun,
+  openInfoModal,
+} from "../../../assets/logic/features/toggleSlice";
 import {
   getSelectedChat,
   getUser,
   setSelectedChat,
 } from "../../../assets/logic/features/userSlice";
-import {  getSenderFull } from "../../../assets/logic/LogicFunctions";
+import { getSenderFull } from "../../../assets/logic/LogicFunctions";
 import ChatNotSelected from "../../../assets/svg/ChatNotSelected";
 import SingleChat from "./singleChat/SingleChat";
-
 
 const ChatBox = () => {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
   const selectedChat = useSelector(getSelectedChat);
   const count = useSelector(getCount);
+  const isTyping = useSelector(getTypingFun);
+  // console.log(isTyping);
   useEffect(() => {}, [count]);
   if (selectedChat._id) {
-  const userFull = getSenderFull(user, selectedChat.users);
+    const userFull = getSenderFull(user, selectedChat.users);
     return (
       <div
         style={{ backgroundImage: `url(${bgImage})` }}
@@ -57,13 +62,23 @@ const ChatBox = () => {
               )}
             </div>
             {selectedChat.isGroupChat ? (
-              <p className="text-sm font-medium font-sans text-white">
+              <h2 className="text-sm font-medium font-sans text-white">
                 {selectedChat.chatName}
-              </p>
+                {isTyping ? (
+                  <p className="text-xs font-light">typing...</p>
+                ) : (
+                  <></>
+                )}
+              </h2>
             ) : (
-              <p className="text-sm font-medium font-sans text-white">
+              <h2 className="text-sm font-medium font-sans text-white">
                 {userFull.name}
-              </p>
+                {isTyping ? (
+                  <p className="text-xs font-light">typing...</p>
+                ) : (
+                  <></>
+                )}
+              </h2>
             )}
           </div>
           <div className="menu text-white w-1/4 sm:w-1/12 flex items-center justify-around">
@@ -82,7 +97,6 @@ const ChatBox = () => {
     );
   }
 
- 
   return (
     <>
       <div className="basis-4/5 bg-[#222e35] bg-cover bg-no-repeat bg-center hidden flex-col items-center justify-center z-10 shrink sm:flex">
@@ -109,12 +123,3 @@ const ChatBox = () => {
 };
 
 export default ChatBox;
-  
-
-
-
-
-
-
-
-

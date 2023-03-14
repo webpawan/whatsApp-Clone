@@ -7,8 +7,9 @@ const initialState = {
   isUserSearch: false,
   isGroupCreate: false,
   isGroupUserModal: false,
-  count:0,
-  
+  count: 0,
+  isUserRemoveGroup:false,
+  isUserTyping: false,
 };
 const toogleSlice = createSlice({
   name: "toolSlice",
@@ -56,9 +57,19 @@ const toogleSlice = createSlice({
     closeGroupUserModal: (state) => {
       state.isGroupUserModal = false;
     },
-   renderComByCount:(state) =>{
-    state.count += 1;
-   }
+    userRemoveGroupOpenModal: (state) => {
+      state.isUserRemoveGroup = true
+    },
+    userRemoveGroupCloseModal: (state) => {
+      state.isUserRemoveGroup = false;
+
+    },
+    renderComByCount: (state) => {
+      state.count += 1;
+    },
+    isUserTyping: (state, { payload }) => {
+      state.isUserTyping = payload;
+    },
   },
 });
 
@@ -76,7 +87,10 @@ export const {
   closeGroupCom,
   openGroupUserModal,
   closeGroupUserModal,
-  renderComByCount
+  userRemoveGroupOpenModal,
+  userRemoveGroupCloseModal,
+  renderComByCount,
+  isUserTyping,
 } = toogleSlice.actions;
 
 export const isOpenSlidebar = (state) => state.toogle.isOpenSlidebar;
@@ -86,3 +100,5 @@ export const userSearch = (state) => state.toogle.isUserSearch;
 export const getGroupCreate = (state) => state.toogle.isGroupCreate;
 export const getGroupUserModal = (state) => state.toogle.isGroupUserModal;
 export const getCount = (state) => state.toogle.count;
+export const getTypingFun = (state) => state.toogle.isUserTyping;
+export const isUserRemoveGroup = (state) => state.toogle.isUserRemoveGroup;
