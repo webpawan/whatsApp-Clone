@@ -8,6 +8,7 @@ import {
 import { isLastMessage, isSameSender, isSameUser } from "./MessageLogic";
 import { io } from "socket.io-client";
 import { isUserTyping } from "../../../../assets/logic/features/toggleSlice";
+import loadingGif from '../../../../assets/images/Reload-1s-200px.gif'
 
 const ENDPOINT = "http://localhost:3000";
 var socket, selectedChatCompare;
@@ -107,7 +108,9 @@ const SingleChat = () => {
     <>
       <div className={` h-full  text-slate-100  w-full px-5 overflow-y-auto`}>
         {loading ? (
-          <h1>load</h1>
+          <div className="w-full h-full flex items-center justify-center">
+            <img src={loadingGif} className="w-20" alt="loading image"/>
+          </div>
         ) : (
           <div>
             {message &&
@@ -156,29 +159,31 @@ const SingleChat = () => {
           </div>
         )}
       </div>
-      <div className="bg-[#202c33] w-full mx-auto flex items-center">
-        <div className="menu text-white  w-1/10  flex items-center justify-around sm:w-1/12">
-          <div className="text-sm text-slate-400">
+      <div className="bg-[#202c33] w-full mx-auto flex items-center p-1">
+        <div className="menu text-white   w-1/10  flex items-center justify-around sm:w-[10%]">
+          <div className="text-xl text-slate-400">
             <i className="fa-regular fa-face-laugh"></i>
+            
           </div>
-          <div className="text-sm text-slate-400">
+          <div className="text-xl text-slate-400">
             <i className="fa-solid fa-paperclip"></i>
           </div>
         </div>
 
         {/* -------- */}
-        <div className="flex items-center m-2 w-full rounded-md bg-slate-700 mx-auto">
+        <div className="flex items-center m-2 w-full rounded-md bg-slate-700 mx-auto ">
           <input
             type="text"
-            placeholder="search"
-            className="w-full  focus:outline-none bg-[#2a3942] rounded-md p-1 px-2 text-sm text-slate-200"
+            placeholder="type a message"
+            className="w-full  focus:outline-none bg-[#2a3942] rounded-md p-2   text-slate-200 "
+            
             onChange={typingHandler}
             value={newMessage}
             onKeyDown={sendMessage}
           />
         </div>
         {/* ----------- */}
-        <div className="mx-3 text-slate-400">
+        <div className="mx-3 text-xl text-slate-400">
           <i className="fa-solid fa-microphone"></i>
         </div>
       </div>

@@ -5,20 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   closeGroupCom,
   closeSlidebar,
-  getCount,
   getGroupCreate,
   openGroupCom,
 } from "../../../assets/logic/features/toggleSlice";
-import { getChats, getUser, setChats } from "../../../assets/logic/features/userSlice";
+import { getChats, setChats } from "../../../assets/logic/features/userSlice";
 import LoadingSkeleton from "../loadingState/LoadingSkeleton";
 import SelectedUser from "./SelectedUser";
+import { toast, ToastContainer } from "react-toastify";
 
 const SidebarGroup = () => {
   const dispatch = useDispatch();
   const GroupCreate = useSelector(getGroupCreate);
-
   const chat = useSelector(getChats);
-  const user = useSelector(getUser);
   const [groupChatName, setGroupChatName] = useState();
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState();
@@ -29,19 +27,37 @@ const SidebarGroup = () => {
     if (!query) {
       return;
     }
-
     try {
       setLoading(true);
-
       const { data } = await axios.get(`/api/user?search=${search}`);
       setLoading(false);
       setSearchResult(data);
-    } catch (error) {}
+    } catch (error) {
+      toast.error("problem with server try again", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
   };
 
   const handleGroup = (userToAdd) => {
     if (selectUser.includes(userToAdd)) {
-      alert("user alreay selected");
+      return toast.info("user already selected", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     }
 
     setSelectUser([...selectUser, userToAdd]);
@@ -51,103 +67,146 @@ const SidebarGroup = () => {
     setSelectUser(selectUser.filter((sel) => sel._id !== user._id));
   };
 
-  const handleSubmit = async () =>{
-if(!groupChatName){
-  return alert("please selet group name");
-}
+  const handleSubmit = async () => {
+    if (!groupChatName) {
+      return toast.warn("please enter group name", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
 
-try {
-  const {data} = await axios.post("/api/chat/group",{
-    name:groupChatName,
-    users:JSON.stringify(selectUser.map((user)=>user._id))
-  })
-  dispatch(setChats([data,...chat]))
-dispatch(closeGroupCom());
-dispatch(closeSlidebar());
-alert("group created");
+    try {
+      const { data } = await toast.promise(
+        axios.post("/api/chat/group", {
+          name: groupChatName,
+          users: JSON.stringify(selectUser.map((user) => user._id)),
+        }),
+        {
+          pending: "Group is creating",
+          success: "Group is created",
+          error: "Group is not make the problem is from server",
+        }
+      );
+      toast.success("Data loaded successfully");
+      dispatch(setChats([data, ...chat]));
+      dispatch(closeGroupCom());
+      dispatch(closeSlidebar());
+      
+    } catch (error) {
+      console.log(error);
+      return toast.warn(
+        "problem with server or something else please try again",
+        {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        }
+      );
+    }
+  };
 
-} catch (error) {
-  console.log(error);
-  alert("problem with create group try once again ")
-}
-
-  }
-
-const count = useSelector(getCount);
+  const nextStepforMakeGroup = () => {
+    if (selectUser.length <= 1) {
+      return toast.warn("select minium 2 users", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    }
+    dispatch(openGroupCom());
+  };
 
   if (GroupCreate) {
-   return (
-     <AnimatePresence>
-       <motion.div
-         initial={{ opacity: 0, x: -100 }}
-         animate={{ opacity: 1, x: 0, transition: { duration: 0.5 } }}
-         className="flex flex-col h-full "
-       >
-         <motion.div
-           className=" bg-[#202c33] h-1/4 "
-           initial={{ opacity: 0, x: -100 }}
-           animate={{
-             opacity: 1,
-             x: 0,
-             delay: "5",
-             transition: { duration: 0.4 },
-           }}
-         >
-           <p className="  mt-9 font-medium  flex items-center text-slate-200">
-             <span>
-               <i
-                 className="fa-solid fa-arrow-left mx-6"
-                 onClick={() => dispatch(closeGroupCom())}
-               ></i>
-             </span>{" "}
-             New Group
-           </p>
-         </motion.div>
+    return (
+      <>
+        <ToastContainer />
 
-         <div className="py-5 mx-auto flex flex-col justify-center items-center text-center">
-           <div className="p-10 rounded-full h-40 w-40 bg-black  flex flex-col justify-center items-center text-center text-sm font-light">
-             <span>
-               <i className="fa-solid fa-camera text-lg"></i>
-             </span>
-             Add Group Icon
-           </div>
-         </div>
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, x: -100 }}
+            animate={{ opacity: 1, x: 0, transition: { duration: 0.5 } }}
+            className="flex flex-col h-full "
+          >
+            <motion.div
+              className=" bg-[#202c33] h-1/6 relative "
+              initial={{ opacity: 0, x: -100 }}
+              animate={{
+                opacity: 1,
+                x: 0,
+                delay: "5",
+                transition: { duration: 0.4 },
+              }}
+            >
+              <p className="absolute bottom-5 font-medium  flex items-center text-slate-200 text-lg">
+                <span>
+                  <i
+                    className="fa-solid fa-arrow-left mx-6"
+                    onClick={() => dispatch(closeGroupCom())}
+                  ></i>
+                </span>{" "}
+                New Group
+              </p>
+            </motion.div>
 
-         <div className="input py-5 mb-3  flex justify-center ">
-           <input
-             type="text"
-             className="bg-transparent border-b border-b-slate-100 pb-1 w-[90%] placeholder:text-xs focus:outline-none text-sm"
-             placeholder="Group Name "
-             onChange={(e) => setGroupChatName(e.target.value)}
-         
-           />
-         </div>
-         <hr className="h-px w-5/6 ml-auto   border-0" />
-         <div className=" relative  bg-[#111b21] mx-auto w-full h-1/4 flex justify-center items-top">
-          
-          
-           <span
-          
-             className="bg-[#00a884] h-10 w-10 flex justify-center items-center rounded-full text-sm"
-             onClick={ handleSubmit}
-           >
-             <i className="fa-solid fa-check"></i>
-           </span>
-         </div>
-       </motion.div>
-     </AnimatePresence>
-   );
+            <div className="py-5 mx-auto flex flex-col justify-center items-center text-center">
+              <div className="p-10 rounded-full h-40 w-40 bg-black  flex flex-col justify-center items-center text-center text-sm font-light">
+                <span>
+                  <i className="fa-solid fa-camera text-lg "></i>
+                </span>
+                Add Group Icon
+              </div>
+            </div>
+
+            <div className="input py-5 mb-3  flex justify-center ">
+              <input
+                type="text"
+                className="bg-transparent border-b border-b-[#00a884] pb-1 w-[90%] placeholder:text-xs focus:outline-none "
+                placeholder="Group Name "
+                onChange={(e) => setGroupChatName(e.target.value)}
+              />
+            </div>
+            <hr className="h-px w-5/6 ml-auto   border-0" />
+            <div className=" relative  bg-[#111b21] mx-auto w-full h-1/4 flex justify-center items-top">
+              <span
+                className=" flex justify-center items-center  hover:cursor-pointer "
+                onClick={handleSubmit}
+              >
+                <i className="fa-solid fa-check bg-[#00a884] p-4 rounded-full hover:cursor-pointer"></i>
+              </span>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </>
+    );
   }
 
   return (
     <>
+      <ToastContainer />
+
       <motion.div
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0, transition: { duration: 0.5 } }}
         className="flex flex-col h-full "
       >
         <motion.div
-          className=" bg-[#202c33] h-1/4 "
+          className=" bg-[#202c33] h-1/3 relative "
           initial={{ opacity: 0, x: -100 }}
           animate={{
             opacity: 1,
@@ -156,7 +215,7 @@ const count = useSelector(getCount);
             transition: { duration: 0.4 },
           }}
         >
-          <p className="  mt-9 font-medium  flex items-center text-slate-200">
+          <p className="absolute bottom-5 font-medium text-lg  flex items-center text-slate-200">
             <span>
               <i
                 className="fa-solid fa-arrow-left mx-6"
@@ -169,7 +228,7 @@ const count = useSelector(getCount);
         {/* selected users ============================= */}
         <div
           className={
-            selectUser && `py-3 mt-4 ml-4 flex flex-wrap  mr-1 overflow-y-auto`
+            selectUser && `py-3 mt-4 ml-4 flex flex-wrap  mr-1 overflow-y-auto `
           }
         >
           {selectUser.map((u) => {
@@ -187,7 +246,7 @@ const count = useSelector(getCount);
         <div className="input py-5 mb-3  flex justify-center ">
           <input
             type="text"
-            className="bg-transparent border-b border-b-slate-700 w-[90%] placeholder:text-xs focus:outline-none text-sm"
+            className="bg-transparent border-b border-b-slate-700 w-[90%] text-sm focus:outline-none text-[#00a884]"
             placeholder="Type contact name "
             onChange={(e) => handleSearch(e.target.value)}
           />
@@ -201,9 +260,12 @@ const count = useSelector(getCount);
           {loading ? (
             <LoadingSkeleton />
           ) : (
-            searchResult.map((user,i) => {
+            searchResult.map((user, i) => {
               return (
-                <div key={i}>
+                <div
+                  key={i}
+                  className="hover:cursor-pointer  hover:bg-slate-800"
+                >
                   <div
                     className=" my-2 p-1 px-2   flex items-center h-10"
                     onClick={() => handleGroup(user)}
@@ -228,8 +290,11 @@ const count = useSelector(getCount);
           {/* -------------------------- */}
         </div>
         <div className=" relative  bg-[#111b21] mx-auto w-full h-1/4 flex justify-center items-top">
-          <span className="bg-[#00a884] h-10 w-10 flex justify-center items-center rounded-full text-sm"onClick={() => dispatch(openGroupCom())}>
-            <i className="fa-solid fa-arrow-right-long"></i>
+          <span
+            className="  flex justify-center items-center  text-xl"
+            onClick={nextStepforMakeGroup}
+          >
+            <i className="fa-solid fa-arrow-right-long bg-[#00a884] p-4 rounded-full hover:cursor-pointer"></i>
           </span>
         </div>
       </motion.div>

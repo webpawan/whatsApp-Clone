@@ -5,28 +5,22 @@ import {
   closeUserFind,
   getCount,
   openSlidebar,
-  renderComByCount,
 } from "../../../assets/logic/features/toggleSlice";
 import axios from "axios";
 import LoadingSkeleton from "../loadingState/LoadingSkeleton";
 import UserListItem from "./UserListItem";
-import { useNavigate } from "react-router-dom";
-import {
-  getChats,
-  setChats,
-  setSelectedChat,
-} from "../../../assets/logic/features/userSlice";
+
+import { setSelectedChat } from "../../../assets/logic/features/userSlice";
+import loadingImg from "../../../assets/images/Reload-1s-200px.gif";
 const SidebarFindUser = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-const count = useSelector(getCount);
+  const count = useSelector(getCount);
 
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState();
   const [loadingchat, setLoadingchat] = useState(false);
-
-  const getChat = useSelector(getChats);
+  const [changeIcon, setChangeIcon] = useState(false);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -55,9 +49,7 @@ const count = useSelector(getCount);
       };
 
       const { data } = await axios.post(`/api/chat`, { userId });
-      // if(!getChat.find((c)=>c._id === data._id)) dispatch(setChats([data,...chats]))
 
-      
       setLoadingchat(false);
       dispatch(setSelectedChat(data));
       dispatch(closeUserFind());
@@ -66,10 +58,15 @@ const count = useSelector(getCount);
     }
   };
 
+  useEffect(() => {}, [count]);
+  useEffect(() => {
+    if (search !== "") {
+      setChangeIcon(true);
+    } else {
+      setChangeIcon(false);
+    }
+  }, [search]);
 
-  useEffect(()=>{
-
-  },[count])
   return (
     <>
       <motion.div
@@ -78,7 +75,7 @@ const count = useSelector(getCount);
         className="flex flex-col h-full "
       >
         <motion.div
-          className=" bg-[#202c33] h-1/4 "
+          className=" bg-[#202c33] h-1/6 relative"
           initial={{ opacity: 0, x: -100 }}
           animate={{
             opacity: 1,
@@ -87,10 +84,10 @@ const count = useSelector(getCount);
             transition: { duration: 0.4 },
           }}
         >
-          <p className="  mt-9 font-medium  flex items-center text-slate-200">
+          <p className=" absolute bottom-5 left-2 font-medium text-lg  flex items-center text-slate-200">
             <span>
               <i
-                className="fa-solid fa-arrow-left mx-6"
+                className="fa-solid fa-arrow-left mx-6 hover:cursor-pointer"
                 onClick={() => dispatch(closeUserFind())}
               ></i>
             </span>{" "}
@@ -98,22 +95,26 @@ const count = useSelector(getCount);
           </p>
         </motion.div>
         <div className="flex   m-[5px] ml-2 w-full  items-center   mx-auto ">
-          {/* <button onClick={() => dispatch(renderComByCount())}>
-            increment
-          </button> */}
           <div className=" flex  items-center w-[95%] ">
-            <button
-              htmlFor=""
-              className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400  text-xs "
-              onClick={(e) => handleSearch(e)}
-            >
-              <i className="fa-solid fa-magnifying-glass"></i>
-            </button>
+           
+            {changeIcon ? (
+              <button
+                className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400 hover active:cursor-progress  
+              "
+                onClick={(e) => handleSearch(e)}
+              >
+                <i class="fa-solid fa-arrow-left-long text-[#00a884]"></i>
+              </button>
+            ) : (
+              <button className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400 hover active:cursor-progress  ">
+                <i className="fa-solid fa-magnifying-glass "></i>
+              </button>
+            )}
 
             <input
               type="text"
               placeholder="search or start new chat "
-              className="w-full py-[7px]  focus:outline-none text-slate-200 bg-[#202c33] text-xs rounded-r-md"
+              className="w-full py-[7px]  focus:outline-none text-slate-200 bg-[#202c33]  rounded-r-md"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -125,15 +126,25 @@ const count = useSelector(getCount);
         <div className="flex flex-col w-full mx-auto overflow-auto  h-4/5">
           <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
           <div
-            className=" py-7 p-1 px-2   flex items-center h-10 hover:bg-slate-800"
+            className=" py-7 p-1 px-2   flex items-center h-10 hover:bg-slate-800 active:cursor-progress hover:cursor-pointer "
             onClick={() => dispatch(openSlidebar(), dispatch(closeUserFind()))}
           >
-            <div className=" h-[40px] w-[50px]  rounded-full bg-[#00a07d] flex items-center justify-center">
+            <div className=" py-2 px-3  rounded-full bg-[#00a07d] flex items-center justify-center">
+              <i className="fa-solid fa-user-group text-lg"></i>
+            </div>
+            <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400 ">
+              <p className="text-sm font-sans font-medium  ">New Group</p>
+            </div>
+          </div>
+          <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
+          <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
+          <div className="py-7 p-1 px-2  flex items-center  h-10 hover:bg-slate-800 mb-5">
+            <div className="user flex items-center justify-center   bg-[#00a07d] rounded-full p-2">
               <svg
                 viewBox="0 0 28 28"
                 preserveAspectRatio="xMidYMid meet"
                 fill="none"
-                className="w-7"
+                className="w-8"
               >
                 <path
                   fillRule="evenodd"
@@ -143,22 +154,11 @@ const count = useSelector(getCount);
                 ></path>
               </svg>
             </div>
-            <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400 ">
-              <p className="text-sm font-sans font-medium  ">New Group</p>
-            </div>
-          </div>
-          <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
-          <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
-          <div className="py-7 p-1 px-2  flex items-center  h-10 hover:bg-slate-800">
-            <div className="user flex items-center justify-center  h-[40px] w-[50px] bg-[#00a07d] rounded-full">
-              <i className="fa-solid fa-user-group"></i>
-            </div>
 
             <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400">
-              <p className="text-sm font-sans font-medium ">New community</p>
+              <p className="text-lg font-sans  ">New community</p>
             </div>
           </div>
-          <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
           <div className="mt-5 mb-2 px-2 p-1 ml-4 text-[#00a07d]">
             <p>contact on whatsapp</p>
           </div>
@@ -178,8 +178,7 @@ const count = useSelector(getCount);
               );
             })
           )}
-          {loadingchat && <h1>loading</h1>}
-          {/* -------------------------- */}
+          {loadingchat && <img src={loadingImg} className="w-5" />}
         </div>
       </motion.div>
     </>

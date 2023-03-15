@@ -1,17 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import {
-  closeUserFind,
+  
   closeInfoModal,
-  openSlidebar,
+ 
   userModal,
   openGroupUserModal,
-  getGroupUserModal,
+
   renderComByCount,
-  getCount,
+  
 } from "../../../assets/logic/features/toggleSlice";
 import {
   getSelectedChat,
@@ -19,7 +19,7 @@ import {
   setSelectedChat,
 } from "../../../assets/logic/features/userSlice";
 import axios from "axios";
-
+import { toast,ToastContainer } from "react-toastify";
 const GroupModal = () => {
   const dispatch = useDispatch();
   const isUserModal = useSelector(userModal);
@@ -27,15 +27,11 @@ const GroupModal = () => {
   const user = useSelector(getUser);
 
   const [groupChanName, setGroupChanName] = useState("");
-  const [renameLoading, setrenameLoading] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(true);
 
-  // --------------
 
-const logout = () =>{
-  
-}
 
   const handleRemove = async (rmUser) => {
     
@@ -63,22 +59,27 @@ const logout = () =>{
   };
   const handleRename = async () => {
     if (!groupChanName) return;
-    console.log(groupChanName);
+    
     try {
-      setrenameLoading(true);
-
-      const { data } = await axios.put(`/api/chat/rename`, {
-        chatId: selectedChat._id,
-        chatName: groupChanName,
-      });
+     
+      const  {data}  =await toast.promise(
+         axios.put(`/api/chat/rename`, {
+          chatId: selectedChat._id,
+          chatName: groupChanName,
+        }),
+        {
+          pending: "name is changing",
+          success: "name change is successfully!",
+          error: "An error occurred while loading data.",
+        }
+      );
 
       dispatch(setSelectedChat(data));
-      // dispatch(closeInfoModal())
       dispatch(renderComByCount());
-      setrenameLoading(false);
+     
       setEditing(true);
     } catch (error) {
-      setrenameLoading(false);
+     
       console.log(error);
       return alert("problem with rename group try again");
     }
@@ -88,6 +89,7 @@ const logout = () =>{
 
   return (
     <>
+    <ToastContainer/>
       <AnimatePresence>
         {isUserModal && (
           <motion.div
@@ -137,7 +139,7 @@ const logout = () =>{
                         {selectedChat.chatName}
                       </h1>
                       <span
-                        className="hover:bg-slate-600 p-2 rounded-full px-3 hover:cursor-progress"
+                        className="hover:bg-slate-600 p-2 rounded-full px-3 hover:cursor-pointer"
                         onClick={() => setEditing(false)}
                       >
                         <i className="fa-solid fa-pen"></i>
@@ -153,7 +155,7 @@ const logout = () =>{
                         value={groupChanName}
                       />
                       <span
-                        className="hover:bg-slate-600 p-2 rounded-full px-3 active:cursor-progress focus:cursor-progress"
+                        className="hover:bg-slate-600 p-2 rounded-full px-3 active:cursor-progress focus:cursor-pointer"
                         onClick={handleRename}
                       >
                         <i className="fa-solid fa-pen"></i>

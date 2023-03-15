@@ -7,11 +7,13 @@ const MainSidebarIcons = () => {
   return (
     <>
       <div className="flex justify-between w-full items-center ">
-        <div className="icon text-base text-slate-400 w-[23px] ">
+        <div className="icon text-base text-slate-400 w-[23px]">
+          {/* ------------------ */}
           <svg
             viewBox="0 0 28 28"
             preserveAspectRatio="xMidYMid meet"
             fill="none"
+            className="w-7"
           >
             <path
               fillRule="evenodd"
@@ -31,6 +33,7 @@ const MainSidebarIcons = () => {
             y="0px"
             enableBackground="new 0 0 24 24"
             xmlSpace="preserve"
+            className="w-6"
           >
             <path
               fill="currentColor"
@@ -51,6 +54,7 @@ const MainSidebarIcons = () => {
             y="0px"
             enableBackground="new 0 0 24 24"
             xmlSpace="preserve"
+            className="w-6"
             onClick={() => dispatch(openUserFind())}
           >
             <path

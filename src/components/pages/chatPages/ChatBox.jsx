@@ -24,23 +24,22 @@ const ChatBox = () => {
   const selectedChat = useSelector(getSelectedChat);
   const count = useSelector(getCount);
   const isTyping = useSelector(getTypingFun);
-  // console.log(isTyping);
   useEffect(() => {}, [count]);
   if (selectedChat._id) {
     const userFull = getSenderFull(user, selectedChat.users);
+   
     return (
       <div
         style={{ backgroundImage: `url(${bgImage})` }}
         className={
           selectedChat._id
-            ? `w-full  bg-cover bg-no-repeat bg-center  flex-col items-center justify-between z-10 shrink sm:flex`
-            : "basis-9/12  bg-cover bg-no-repeat bg-center hidden flex-col items-center justify-between z-10 shrink sm:flex"
+            ? `basis-4/5  bg-cover bg-no-repeat bg-center  flex-col items-center justify-between z-10 shrink sm:flex`
+            : "basis-4/5  bg-cover bg-no-repeat bg-center hidden flex-col items-center justify-between z-10 shrink sm:flex"
         }
       >
-        {/* ------------------- */}
         <div className="w-full flex  items-center justify-between bg-[#202c33] py-2 px-4">
           <div
-            className="flex items-center hover:cursor-pointer"
+            className="flex items-center  hover:cursor-pointer"
             onClick={() => dispatch(openInfoModal())}
           >
             <span
@@ -49,10 +48,10 @@ const ChatBox = () => {
             >
               <i className="fa-solid fa-arrow-left text-xs sm:text-sm"></i>
             </span>
-            <div className="mr-2  h-[30px] w-[30px]  rounded-full">
+            <div className="mr-2  h-[30px] w-[30px]  rounded-full ">
               {selectedChat.isGroupChat ? (
-                <p className="w-[30px] h-[30px] rounded-full bg-slate-400 text-slate-100 flex items-center justify-center">
-                  Gp
+                <p  className="w-[30px] h-[30px] rounded-full bg-slate-400 text-slate-100 flex items-center justify-center">
+                  {selectedChat.chatName.substr(0, 2)}
                 </p>
               ) : (
                 <img
@@ -61,37 +60,37 @@ const ChatBox = () => {
                 />
               )}
             </div>
-            {selectedChat.isGroupChat ? (
-              <h2 className="text-sm font-medium font-sans text-white">
-                {selectedChat.chatName}
-                {isTyping ? (
-                  <p className="text-xs font-light">typing...</p>
-                ) : (
-                  <></>
-                )}
-              </h2>
-            ) : (
-              <h2 className="text-sm font-medium font-sans text-white">
-                {userFull.name}
-                {isTyping ? (
-                  <p className="text-xs font-light">typing...</p>
-                ) : (
-                  <></>
-                )}
-              </h2>
-            )}
+            
+            <div className="h-10">
+              
+              {selectedChat.isGroupChat ? (
+                <h2 className="text-sm   font-medium font-sans text-white mt-2">
+                  {selectedChat.chatName}
+                  {isTyping ? (
+                    <p className="text-xs font-light">typing...</p>
+                  ) : (
+                    <></>
+                  )}
+                </h2>
+              ) : (
+                <h2  className="text-sm  font-medium font-sans text-white mt-2">
+                  {userFull.name}
+                  {isTyping ? (
+                    <p className="text-xs font-light">typing...</p>
+                  ) : (
+                    <></>
+                  )}
+                </h2>
+              )}
+            </div>
           </div>
           <div className="menu text-white w-1/4 sm:w-1/12 flex items-center justify-around">
-            <div className="text-sm text-slate-400">
+            <div className=" text-slate-400">
               <i className=" fa-solid  fa-magnifying-glass"></i>
-            </div>
-            <div className="text-sm text-slate-400 ">
-              <i className="fa-solid fa-bell "></i>
             </div>
           </div>
         </div>
         {/* ------------------- */}
-
         <SingleChat />
       </div>
     );
