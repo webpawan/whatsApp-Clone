@@ -148,20 +148,24 @@ setLoading(true)
                 type="text"
                 placeholder=" Name"
                 onChange={(e) => setName(e.target.value)}
+                value={name}
                 className=" px-2 py-1 mt-3 my-2 border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
                 required
               />
               <input
                 type="email"
                 placeholder="email"
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className=" px-2 py-1 my-2 border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
                 required
               />
               <input
                 type="password"
+
                 placeholder="password"
                 onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 className=" px-2 py-1 my-2 border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
                 required
               />

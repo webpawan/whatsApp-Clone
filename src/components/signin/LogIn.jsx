@@ -41,19 +41,26 @@ setLoading(true);
       }
     } catch (error) {
       setLoading(false);
-      return alert("invalid creadintial");
+       return toast.error("invalid creadintial", {
+         position: "top-center",
+         autoClose: 1500,
+         closeOnClick: true,
+         pauseOnHover: false,
+
+         progress: undefined,
+         theme: "dark",
+       });
     }
   };
   return (
     <>
-      <ToastContainer/>
-        {loading && (
-          <div className="p-5 bg-slate-900 absolute top-0 left-0 z-50 h-full w-full flex items-center justify-center flex-col">
-            <img src={logo} className="w-20 animate-pulse" />
-          </div>
-        )}
-     
+      {loading && (
+        <div className="p-5 bg-slate-900 absolute top-0 left-0 z-50 h-full w-full flex items-center justify-center flex-col">
+          <img src={logo} className="w-20 animate-pulse" />
+        </div>
+      )}
 
+      <ToastContainer />
       <div className="h-screen relative bg-black">
         <div className="h-[222px] w-full bg-[#00a884]  absolute top-0">
           <div className="h-10  w-[880px] mx-auto mt-5 flex items-center">
@@ -99,12 +106,14 @@ setLoading(true);
                 type="email"
                 placeholder="email"
                 onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 className=" px-2 py-1 mt-2 my-5 border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
               />
               <input
                 type="password"
                 placeholder="password"
                 onChange={(e) => setPassword(e.target.value)}
+                value={password}
                 className=" px-2 py-1  border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] text-[#00a884] focus:text-teal-600 transition ease-in-out bg-transparent"
               />
 
