@@ -10,8 +10,10 @@ const LogIn = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
+    console.log("kisa ho raha ha");
 
   const submitHandler = async (e) => {
+    console.log("kuch to hua");
     e.preventDefault();
     if (!email || !password) {
      return toast.error("Fill the all fields", {
