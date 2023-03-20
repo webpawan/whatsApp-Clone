@@ -10,10 +10,8 @@ const LogIn = () => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
-    console.log("kisa ho raha ha");
 
   const submitHandler = async (e) => {
-    console.log("kuch to hua");
     e.preventDefault();
     if (!email || !password) {
      return toast.error("Fill the all fields", {
@@ -27,13 +25,11 @@ const LogIn = () => {
      });
     }
 setLoading(true);
-console.log("enter in login functionality");
     try {
       const { data } = await axios.post("/api/user/login", {
         email,
         password,
       });
-console.log(data);
       if (data) {
         localStorage.setItem("userInfo", JSON.stringify(data));
         navigate("/chat");
