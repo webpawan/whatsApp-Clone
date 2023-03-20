@@ -25,13 +25,13 @@ const LogIn = () => {
      });
     }
 setLoading(true);
-
+console.log("enter in login functionality");
     try {
       const { data } = await axios.post("/api/user/login", {
         email,
         password,
       });
-
+console.log(data);
       if (data) {
         localStorage.setItem("userInfo", JSON.stringify(data));
         navigate("/chat");
