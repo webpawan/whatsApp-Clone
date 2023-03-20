@@ -55,7 +55,7 @@ const [loading, setLoading] = useState(false)
         position: "top-center",
         autoClose: 3000,
         closeOnClick: true,
-        pauseOnHover: true,
+        
         draggable: true,
         progress: undefined,
         theme: "dark",

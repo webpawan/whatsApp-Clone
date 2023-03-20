@@ -42,11 +42,7 @@ const SidebarFindUser = () => {
   const accessChat = async (userId) => {
     try {
       setLoadingchat(true);
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
+      
 
       const { data } = await axios.post(`/api/chat`, { userId });
 
@@ -96,15 +92,17 @@ const SidebarFindUser = () => {
         </motion.div>
         <div className="flex   m-[5px] ml-2 w-full  items-center   mx-auto ">
           <div className=" flex  items-center w-[95%] ">
-           
+      
             {changeIcon ? (
-              <button
+              <motion.button
                 className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400 hover active:cursor-progress  
+                
               "
+              initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}
                 onClick={(e) => handleSearch(e)}
               >
                 <i class="fa-solid fa-arrow-left-long text-[#00a884]"></i>
-              </button>
+              </motion.button>
             ) : (
               <button className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400 hover active:cursor-progress  ">
                 <i className="fa-solid fa-magnifying-glass "></i>

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
+
 import { useSelector } from 'react-redux';
 import { getCount } from '../../../assets/logic/features/toggleSlice';
 
 
 const UserListItem = ({ user, handleFunction }) => {
   const count = useSelector(getCount);
-  useEffect(() => {}, [count]);
+ 
   return (
     <>
       <div className="flex flex-col w-full mx-auto  hover:bg-slate-800 hover:cursor-pointer active:cursor-progress focus:cursor-progress">

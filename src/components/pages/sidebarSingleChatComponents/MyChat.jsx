@@ -24,9 +24,15 @@ const MyChat = () => {
   const getChat = useSelector(getChats);
   const [loading, setLoading] = useState(false);
   const count = useSelector(getCount);
-  const [filterData, setFilterData] = useState(getChat);
-  const [groupName, setGroupName] = useState([])
-  const [userName, setUserName] = useState([])
+
+  const [filterData, setFilterData] = useState([]);
+  const [changeIcon, setChangeIcon] = useState(false);
+
+
+  useEffect(()=>{
+    setFilterData(getChat)
+  },[getChat])
+
 
   const fetchChat = async () => {
     try {
@@ -40,32 +46,24 @@ const MyChat = () => {
   };
 
   const searchUser = (query) => {
-     var userName = "";
-     var groupName = "";
-    const searchedData = getChat.filter((userData) => {
-     
-      if (!userData.isGroupChat) {
-        userName = getSender(user, userData.users);
-        setUserName(userName)
-        console.log(userName);
-      }else{
-       groupName = userData.chatName;
-        setGroupName(groupName);
+    let searchedData = getChat.filter((data) => {
+      if (data.isGroupChat) {
+        return data.chatName.includes(query);
+      } else {
+        let name = getSender(user, data.users);
 
+        return name.includes(query);
       }
-
-
-
-
-      //  const data = getChat.filter((userData) => userData.userName.toLowerCase().includes(query) || userData.groupName.toLowerCase().includes(query))
-
-    })
-
-
+    });
 
     setFilterData(searchedData);
-
+     if (query !== "") {
+       setChangeIcon(true);
+     } else {
+       setChangeIcon(false);
+     }
   };
+
   useEffect(() => {
     fetchChat();
   }, [count]);
@@ -77,12 +75,20 @@ const MyChat = () => {
         <div>
           <div className="flex   m-[5px] ml-2 w-full  items-center   mx-auto ">
             <div className=" flex  items-center w-11/12 ">
-              <label
-                htmlFor=""
-                className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400  "
-              >
-                <i className="fa-solid fa-magnifying-glass"></i>
-              </label>
+            
+
+              {changeIcon ? (
+                <button
+                  className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400 hover active:cursor-progress  
+              "
+                >
+                  <i class="fa-solid fa-arrow-left-long text-[#00a884]"></i>
+                </button>
+              ) : (
+                <button className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400 hover active:cursor-progress  ">
+                  <i className="fa-solid fa-magnifying-glass "></i>
+                </button>
+              )}
 
               <input
                 type="text"
@@ -94,7 +100,7 @@ const MyChat = () => {
             <svg
               viewBox="0 0 24 24"
               preserveAspectRatio="xMidYMid meet"
-              className="h-5 text-slate-400 mr-4 ml-3 "
+              className="h-5 text-slate-400 mr-4 ml-3"
               version="1.1"
               x="0px"
               y="0px"
@@ -108,8 +114,7 @@ const MyChat = () => {
             </svg>
           </div>
           <div className="flex flex-col w-full mx-auto overflow-auto  h-4/5">
-            {/* <MyChat /> */}
-            {getChat.map((chat, i) => {
+            {filterData.map((chat, i) => {
               return (
                 <div className="my-1" key={i}>
                   <div

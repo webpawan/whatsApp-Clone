@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { AnimatePresence, motion } from "framer-motion";
+
 import logo from "../../assets/images/logo.png";
+import { toast, ToastContainer } from "react-toastify";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -12,10 +13,18 @@ const LogIn = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-setLoading(true)
     if (!email || !password) {
-      return alert("fill all the fields");
+     return toast.error("Fill the all fields", {
+       position: "top-center",
+       autoClose: 3000,
+       closeOnClick: true,
+       pauseOnHover: false,
+     
+       progress: undefined,
+       theme: "dark",
+     });
     }
+setLoading(true);
 
     try {
       const { data } = await axios.post("/api/user/login", {
@@ -37,10 +46,10 @@ setLoading(true)
   };
   return (
     <>
-      
+      <ToastContainer/>
         {loading && (
           <div className="p-5 bg-slate-900 absolute top-0 left-0 z-50 h-full w-full flex items-center justify-center flex-col">
-            <img src={logo} className="w-20 animate-pulse" alt="" srcset="" />
+            <img src={logo} className="w-20 animate-pulse" />
           </div>
         )}
      

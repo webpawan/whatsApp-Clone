@@ -12,8 +12,8 @@ const Menu = () => {
 
   return (
     <>
-      <button
-        className=" px-3 p-1 rounded-full   text-white hover:bg-slate-700/[0.6] active:bg-slate-700/[0.6] focus:outline-none   font-medium text-sm  text-center relative"
+      <div
+        className=" px-3 p-1 rounded-full   text-white hover:bg-slate-700/[0.6] active:bg-slate-700/[0.6] focus:outline-none   font-medium text-sm  text-center relative "
         type="button"
         onClick={() => setShow(!show)}
       >
@@ -27,7 +27,7 @@ const Menu = () => {
               className="px-5 bg-[#233138] absolute right-5 my-2  text-left  shadow shadow-black text-slate-300 w-52 "
             >
               <p
-                className="  ml-2 my-4 hover:bg-slate-700  block"
+                className="  ml-2 my-4 hover:bg-slate-700  block hover:cursor-pointer"
                 onClick={() => dispatch(openSlidebar())}
               >
                 New Group
@@ -37,7 +37,7 @@ const Menu = () => {
               <p className="  ml-2 my-4">Started message</p>
               <p className=" ml-2 my-4">Settings</p>
               <p
-                className=" ml-2 my-4 hover:bg-slate-700"
+                className=" ml-2 my-4 hover:bg-slate-700 hover:cursor-pointer"
                 onClick={() => dispatch(openModal())}
               >
                 Log Out
@@ -47,7 +47,7 @@ const Menu = () => {
         </AnimatePresence>
 
         <AnimatePresence></AnimatePresence>
-      </button>
+      </div>
     </>
   );
 };

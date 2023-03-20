@@ -54,7 +54,7 @@ const MainSidebarIcons = () => {
             y="0px"
             enableBackground="new 0 0 24 24"
             xmlSpace="preserve"
-            className="w-6"
+            className="w-6 hover:cursor-pointer"
             onClick={() => dispatch(openUserFind())}
           >
             <path
