@@ -101,7 +101,7 @@ setLoading(true);
 
           <div className=" h-2/3 flex flex-col items-center basis-1/2 bg-slate-100">
             <h2 className="font-light text-2xl p-2 border-b-2 ">Log In</h2>
-            <form action="" className="flex flex-col items-center  ">
+            <div action="" className="flex flex-col items-center  ">
               <input
                 type="email"
                 placeholder="email"
@@ -123,7 +123,7 @@ setLoading(true);
               >
                 submit
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>

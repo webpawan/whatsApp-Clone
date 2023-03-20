@@ -143,7 +143,7 @@ setLoading(true)
           {/* signin  */}
           <div className="  flex flex-col items-center basis-1/2 bg-slate-100">
             <h2 className="font-light text-2xl p-2 border-b-2 ">Sign In</h2>
-            <form action="" className="flex flex-col items-center  ">
+            <div className="flex flex-col items-center  ">
               <input
                 type="text"
                 placeholder=" Name"
@@ -176,7 +176,7 @@ setLoading(true)
                 placeholder="select image"
                 className="my-5 pb-1 block  text-xs text-[#00a884]  cursor-pointer  focus:outline-none file:bg-transparent file:border-none border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] transition ease-in-out bg-transparent "
               />
-            </form>
+            </div>
             <button
               className=" bg-[#00a88499] mt-5 px-5 py-2 rounded-full text-white shadow-xl  hover:shadow-md focus:shadow transition-shadow hover:-translate-y-[.5px] focus:bg-[#00a884] active:bg-[#00a884] text-sm active:cursor-progress "
               onClick={submitHandler}
