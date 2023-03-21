@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 import { isUserTyping } from "../../../../assets/logic/features/toggleSlice";
 import loadingGif from '../../../../assets/images/Reload-1s-200px.gif'
 
-const ENDPOINT = "https://chatclone-6e9i.onrender.com/";
+const ENDPOINT = "http://localhost:5173/";
 var socket, selectedChatCompare;
 
 const SingleChat = () => {
