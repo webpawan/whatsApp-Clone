@@ -1,0 +1,4 @@
+[[redirects]]
+  from = "/api/*"
+  to = "https://whatsappserver-e6zx.onrender.com/"
+  status = 200

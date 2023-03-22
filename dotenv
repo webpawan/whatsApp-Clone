@@ -1,0 +1,2 @@
+# REACT_APP_API_BASE_URL = https://chatclone-6e9i.onrender.com/
+REACT_APP_API_BASE_URL = "https://whatsappserver-e6zx.onrender.com/"

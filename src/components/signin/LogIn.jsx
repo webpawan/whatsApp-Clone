@@ -1,9 +1,14 @@
+// const dotenv = require("dotenv").config();
 import axios from "axios";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-
 import logo from "../../assets/images/logo.png";
 import { toast, ToastContainer } from "react-toastify";
+// import dotenv from "dotenv";
+// dotenv.config();
+
+// const REACT_APP_API_BASE_UR = process.env.REACT_APP_API_BASE_URL;
+// console.log(REACT_APP_API_BASE_UR);
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -14,20 +19,19 @@ const LogIn = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!email || !password) {
-     return toast.error("Fill the all fields", {
-       position: "top-center",
-       autoClose: 3000,
-       closeOnClick: true,
-       pauseOnHover: false,
-     
-       progress: undefined,
-       theme: "dark",
-     });
+      return toast.error("Fill the all fields", {
+        position: "top-center",
+        autoClose: 3000,
+        closeOnClick: true,
+        pauseOnHover: false,
+        progress: undefined,
+        theme: "dark",
+      });
     }
-setLoading(true);
+    setLoading(true);
     try {
       const { data } = await axios.post(
-        "http://localhost:3000/api/user/login",
+        `/api/user/login`,
         {
           email,
           password,
@@ -36,21 +40,20 @@ setLoading(true);
       if (data) {
         localStorage.setItem("userInfo", JSON.stringify(data));
         navigate("/chat");
-        setLoading(false)
+        setLoading(false);
         return alert("login successfull");
-
       }
     } catch (error) {
       setLoading(false);
-       return toast.error("invalid creadintial", {
-         position: "top-center",
-         autoClose: 1500,
-         closeOnClick: true,
-         pauseOnHover: false,
+      return toast.error("invalid creadintial", {
+        position: "top-center",
+        autoClose: 1500,
+        closeOnClick: true,
+        pauseOnHover: false,
 
-         progress: undefined,
-         theme: "dark",
-       });
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
   return (
