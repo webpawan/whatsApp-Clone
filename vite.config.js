@@ -7,6 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": process.env.REACT_APP_API_BASE_URL,
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api/, ""),
     },
   },
   plugins: [react()],
