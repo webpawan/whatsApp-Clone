@@ -26,10 +26,13 @@ const LogIn = () => {
     }
 setLoading(true);
     try {
-      const { data } = await axios.post("/api/user/login", {
-        email,
-        password,
-      });
+      const { data } = await axios.post(
+        "http://localhost:3000/api/user/login",
+        {
+          email,
+          password,
+        }
+      );
       if (data) {
         localStorage.setItem("userInfo", JSON.stringify(data));
         navigate("/chat");
