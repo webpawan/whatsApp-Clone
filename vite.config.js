@@ -6,7 +6,7 @@ dotenv.config();
 export default defineConfig({
   server: {
     proxy: {
-      "/api": process.env.REACT_APP_API_BASE_URL,
+      "/api": "https://whatsappserver-e6zx.onrender.com/",
       changeOrigin: true,
       rewrite: (path) => path.replace(/^\/api/, ""),
     },
