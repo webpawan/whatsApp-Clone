@@ -31,7 +31,7 @@ const LogIn = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `/api/user/login`,
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/user/login`,
         {
           email,
           password,
@@ -56,6 +56,7 @@ const LogIn = () => {
       });
     }
   };
+  
   return (
     <>
       {loading && (

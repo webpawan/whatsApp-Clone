@@ -7,8 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": "https://whatsappserver-e6zx.onrender.com/",
-      changeOrigin: true,
-      rewrite: (path) => path.replace(/^\/api/, ""),
+  
     },
   },
   plugins: [react()],
