@@ -6,8 +6,7 @@ dotenv.config();
 export default defineConfig({
   server: {
     proxy: {
-      "/api": "https://whatsappserver-e6zx.onrender.com/",
-  
+      "/api": `${VITE_REACT_APP_API_BASE_URL}`,
     },
   },
   plugins: [react()],
