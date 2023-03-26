@@ -38,7 +38,11 @@ const GroupModalSidebar = () => {
     try {
       setLoading(true);
 
-      const { data } = await axios.get(`/api/user?search=${search}`);
+      const { data } = await axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_API_BASE_URL
+        }api/user?search=${search}`
+      );
       setLoading(false);
       setSearchResult(data);
     } catch (error) {

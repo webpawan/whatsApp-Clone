@@ -26,17 +26,20 @@ const [loading, setLoading] = useState(false)
     data.append("file", pics);
     data.append("upload_preset", "chatApp");
     data.append("cloud_name", "dheexewsk");
-   const PicStatus =  fetch("https://api.cloudinary.com/v1_1/dheexewsk/image/upload", {
-      method: "post",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setPic(data.url.toString());
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+   const PicStatus = fetch(
+     `${import.meta.env.VITE_REACT_CLOUDINARY_API}/v1_1/dheexewsk/image/upload`,
+     {
+       method: "post",
+       body: data,
+     }
+   )
+     .then((res) => res.json())
+     .then((data) => {
+       setPic(data.url.toString());
+     })
+     .catch((e) => {
+       console.log(e);
+     });
 
       toast.promise(PicStatus, {
         pending: "image is uploading",
@@ -63,13 +66,16 @@ const [loading, setLoading] = useState(false)
     }
 setLoading(true)
     try {
-      const { data } =await toast.promise(
-         axios.post("/api/user/register", {
-          name,
-          email,
-          password,
-          pic,
-        }),
+      const { data } = await toast.promise(
+        axios.post(
+          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/user/register`,
+          {
+            name,
+            email,
+            password,
+            pic,
+          }
+        ),
         {
           pending: "registration in process",
           success: "registration is completed",

@@ -40,10 +40,13 @@ const GroupModal = () => {
     }
     try {
       setLoading(true);
-      const { data } = await axios.put("/api/chat/groupremove", {
-        chatId: selectedChat._id,
-        userId: rmUser._id,
-      });
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/chat/groupremove`,
+        {
+          chatId: selectedChat._id,
+          userId: rmUser._id,
+        }
+      );
       if (rmUser._id === user._id) {
         setSelectedChat();
         dispatch(closeInfoModal())

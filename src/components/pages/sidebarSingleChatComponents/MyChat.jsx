@@ -37,7 +37,9 @@ const MyChat = () => {
   const fetchChat = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/chat");
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/chat`
+      );
       dispatch(setChats(data));
       setLoading(false);
     } catch (error) {

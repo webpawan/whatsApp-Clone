@@ -11,7 +11,7 @@ import { isUserTyping } from "../../../../assets/logic/features/toggleSlice";
 import loadingGif from '../../../../assets/images/Reload-1s-200px.gif'
 
 
-const ENDPOINT = "https://chatclone-6e9i.onrender.com/";
+const ENDPOINT = `${import.meta.env.VITE_REACT_APP_API_BASE_URL}`;
 var socket, selectedChatCompare;
 
 const SingleChat = () => {
@@ -32,7 +32,11 @@ const SingleChat = () => {
 
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/message/${selectdChat._id}`);
+      const { data } = await axios.get(
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/message/${
+          selectdChat._id
+        }`
+      );
       setMessage(data);
       setLoading(false);
 
@@ -68,10 +72,13 @@ const SingleChat = () => {
       socket.emit("stope typing", selectdChat._id);
       try {
         setNewMessage("");
-        const { data } = await axios.post("/api/message", {
-          content: newMessage,
-          chatId: selectdChat._id,
-        });
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/api/message`,
+          {
+            content: newMessage,
+            chatId: selectdChat._id,
+          }
+        );
         socket.emit("new Message", data);
         setMessage([...message, data]);
       } catch (error) {

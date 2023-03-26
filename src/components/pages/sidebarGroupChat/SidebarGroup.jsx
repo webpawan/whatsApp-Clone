@@ -29,7 +29,11 @@ const SidebarGroup = () => {
     }
     try {
       setLoading(true);
-      const { data } = await axios.get(`/api/user?search=${search}`);
+      const { data } = await axios.get(
+        `${
+          import.meta.env.VITE_REACT_APP_API_BASE_URL
+        }api/user?search=${search}`
+      );
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -83,10 +87,13 @@ const SidebarGroup = () => {
 
     try {
       const { data } = await toast.promise(
-        axios.post("/api/chat/group", {
-          name: groupChatName,
-          users: JSON.stringify(selectUser.map((user) => user._id)),
-        }),
+        axios.post(
+          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/chat/group`,
+          {
+            name: groupChatName,
+            users: JSON.stringify(selectUser.map((user) => user._id)),
+          }
+        ),
         {
           pending: "Group is creating",
           success: "Group is created",
