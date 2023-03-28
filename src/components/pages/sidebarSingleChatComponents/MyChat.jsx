@@ -35,15 +35,17 @@ const MyChat = () => {
 
 
   const fetchChat = async () => {
+    
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/chat`
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat`
       );
       dispatch(setChats(data));
       setLoading(false);
+
     } catch (error) {
-      console.log("erro on fetching chat");
+      // console.log(error);
     }
   };
 
@@ -69,6 +71,8 @@ const MyChat = () => {
   useEffect(() => {
     fetchChat();
   }, [count]);
+
+
   const user = useSelector(getUser);
 
   return (

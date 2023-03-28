@@ -32,7 +32,7 @@ const SidebarGroup = () => {
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_REACT_APP_API_BASE_URL
-        }api/user?search=${search}`
+        }/user?search=${search}`
       );
       setLoading(false);
       setSearchResult(data);
@@ -88,7 +88,7 @@ const SidebarGroup = () => {
     try {
       const { data } = await toast.promise(
         axios.post(
-          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/chat/group`,
+          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat/group`,
           {
             name: groupChatName,
             users: JSON.stringify(selectUser.map((user) => user._id)),

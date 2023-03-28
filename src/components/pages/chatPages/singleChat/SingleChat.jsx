@@ -33,7 +33,7 @@ const SingleChat = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/message/${
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/message/${
           selectdChat._id
         }`
       );
@@ -73,7 +73,7 @@ const SingleChat = () => {
       try {
         setNewMessage("");
         const { data } = await axios.post(
-          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/api/message`,
+          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/message`,
           {
             content: newMessage,
             chatId: selectdChat._id,

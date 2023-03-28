@@ -41,7 +41,7 @@ const GroupModalSidebar = () => {
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_REACT_APP_API_BASE_URL
-        }api/user?search=${search}`
+        }/user?search=${search}`
       );
       setLoading(false);
       setSearchResult(data);
@@ -60,10 +60,13 @@ const GroupModalSidebar = () => {
 
     try {
       setLoading(true);
-      const { data } = await axios.put("/api/chat/groupAdd", {
-        chatId: selectChat._id,
-        userId: AddUser._id,
-      });
+      const { data } = await axios.put(
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat/groupAdd`,
+        {
+          chatId: selectChat._id,
+          userId: AddUser._id,
+        }
+      );
       dispatch(setSelectedChat(data));
       setLoading(false);
     } catch (error) {

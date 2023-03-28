@@ -33,7 +33,7 @@ const SidebarFindUser = () => {
       const { data } = await axios.get(
         `${
           import.meta.env.VITE_REACT_APP_API_BASE_URL
-        }api/user?search=${search}`
+        }/user?search=${search}`
       );
       setLoading(false);
       setSearchResult(data);
@@ -49,7 +49,7 @@ const SidebarFindUser = () => {
       
 
       const { data } = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/chat`,
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat`,
         { userId }
       );
 

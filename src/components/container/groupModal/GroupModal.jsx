@@ -32,7 +32,6 @@ const GroupModal = () => {
   const [editing, setEditing] = useState(true);
 
 
-
   const handleRemove = async (rmUser) => {
     
     if (selectedChat.groupAdmin._id !== user._id && rmUser._id !== user._id) {
@@ -41,7 +40,7 @@ const GroupModal = () => {
     try {
       setLoading(true);
       const { data } = await axios.put(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/chat/groupremove`,
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: rmUser._id,
@@ -65,11 +64,14 @@ const GroupModal = () => {
     
     try {
      
-      const  {data}  =await toast.promise(
-         axios.put(`/api/chat/rename`, {
-          chatId: selectedChat._id,
-          chatName: groupChanName,
-        }),
+      const { data } = await toast.promise(
+        axios.put(
+          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat/rename`,
+          {
+            chatId: selectedChat._id,
+            chatName: groupChanName,
+          }
+        ),
         {
           pending: "name is changing",
           success: "name change is successfully!",

@@ -6,7 +6,7 @@ dotenv.config();
 export default defineConfig({
   server: {
     proxy: {
-      "/api": `${process.env.VITE_REACT_APP_API_BASE_URL}`,
+      "/api": process.env.VITE_REACT_APP_API_BASE_URL_server,
     },
   },
   plugins: [react()],

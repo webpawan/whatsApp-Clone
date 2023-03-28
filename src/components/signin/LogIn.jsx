@@ -1,21 +1,18 @@
-// const dotenv = require("dotenv").config();
+
 import axios from "axios";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import { toast, ToastContainer } from "react-toastify";
 // import dotenv from "dotenv";
-// dotenv.config();
 
-// const REACT_APP_API_BASE_UR = process.env.REACT_APP_API_BASE_URL;
-// console.log(REACT_APP_API_BASE_UR);
+
 
 const LogIn = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [loading, setLoading] = useState(false);
-
   const submitHandler = async (e) => {
     e.preventDefault();
     if (!email || !password) {
@@ -31,7 +28,7 @@ const LogIn = () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/user/login`,
+        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/user/login`,
         {
           email,
           password,
