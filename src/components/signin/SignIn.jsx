@@ -68,7 +68,7 @@ setLoading(true)
     try {
       const { data } = await toast.promise(
         axios.post(
-          `/api/user/register`,
+          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}api/user/register`,
           {
             name,
             email,
