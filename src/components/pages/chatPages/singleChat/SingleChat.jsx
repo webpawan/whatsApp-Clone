@@ -11,7 +11,7 @@ import { isUserTyping } from "../../../../assets/logic/features/toggleSlice";
 import loadingGif from '../../../../assets/images/Reload-1s-200px.gif'
 
 
-const ENDPOINT = `${import.meta.env.VITE_REACT_APP_API_BASE_URL}`;
+const ENDPOINT = `${import.meta.env.VITE_REACT_APP_API_BASE_URL_server}`;
 var socket, selectedChatCompare;
 
 const SingleChat = () => {
@@ -33,7 +33,7 @@ const SingleChat = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/message/${
+        `/api/message/${
           selectdChat._id
         }`
       );
@@ -73,7 +73,7 @@ const SingleChat = () => {
       try {
         setNewMessage("");
         const { data } = await axios.post(
-          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/message`,
+          `/api/message`,
           {
             content: newMessage,
             chatId: selectdChat._id,

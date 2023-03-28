@@ -39,7 +39,7 @@ const MyChat = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat`
+        `/api/chat`
       );
       dispatch(setChats(data));
       setLoading(false);

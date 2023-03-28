@@ -39,9 +39,7 @@ const GroupModalSidebar = () => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `${
-          import.meta.env.VITE_REACT_APP_API_BASE_URL
-        }/user?search=${search}`
+        `/api/user?search=${search}`
       );
       setLoading(false);
       setSearchResult(data);
@@ -61,7 +59,7 @@ const GroupModalSidebar = () => {
     try {
       setLoading(true);
       const { data } = await axios.put(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat/groupAdd`,
+        `/api/chat/groupAdd`,
         {
           chatId: selectChat._id,
           userId: AddUser._id,

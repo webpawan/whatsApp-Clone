@@ -40,7 +40,7 @@ const GroupModal = () => {
     try {
       setLoading(true);
       const { data } = await axios.put(
-        `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat/groupremove`,
+        `/api/chat/groupremove`,
         {
           chatId: selectedChat._id,
           userId: rmUser._id,
@@ -66,7 +66,7 @@ const GroupModal = () => {
      
       const { data } = await toast.promise(
         axios.put(
-          `${import.meta.env.VITE_REACT_APP_API_BASE_URL}/chat/rename`,
+          `/api/chat/rename`,
           {
             chatId: selectedChat._id,
             chatName: groupChanName,
