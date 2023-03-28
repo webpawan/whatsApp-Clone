@@ -27,13 +27,19 @@ const LogIn = () => {
     }
     setLoading(true);
     try {
-      const { data } = await axios.post(
-        `/api/user/login`,
-        {
+      const { data } = await toast.promise(
+        axios.post(`/api/user/login`, {
           email,
           password,
+        }),
+        {
+          pending: "login in process",
+          success: "login is completed",
+          error: "something is wrong try agai or the problem is",
         }
       );
+      
+      
       if (data) {
         localStorage.setItem("userInfo", JSON.stringify(data));
         navigate("/chat");
