@@ -79,7 +79,7 @@ setLoading(true)
         {
           pending: "registration in process",
           success: "registration is completed",
-          error: "something is wrong try agai or the problem is",
+          error: "something is wrong try again ",
         }
       );
       if (data) {
