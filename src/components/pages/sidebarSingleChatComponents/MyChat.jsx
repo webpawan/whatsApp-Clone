@@ -164,11 +164,11 @@ const MyChat = () => {
                 </div>
               );
             })}
-            <p className="text-[5px] text-slate-200  mx-auto my-2">
+            <p className="text-xs text-slate-200  mx-auto my-2">
               <span>
                 <i className="fa-solid fa-lock"></i>
               </span>{" "}
-              Your personal message are{" "}
+              Your personal message are
               <span className="text-sky-400 text-xs">end-to-end encrypted</span>
             </p>
             --
