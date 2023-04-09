@@ -4,7 +4,6 @@ import { getCount } from '../../../assets/logic/features/toggleSlice';
 
 
 const UserListItem = ({ user, handleFunction }) => {
-  const count = useSelector(getCount);
  
   return (
     <>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getSelectedChat, getUser, setUser } from "../../assets/logic/features/userSlice";
 import SideDrawer from "../pages/MainSidebarComponents/SideDrawer";
@@ -41,6 +41,7 @@ const count = useSelector(getCount);
   return (
     <>
       <div className="flex justify-center  h-screen w-full bg-[rgb(17,27,33)] sm:p-4 relative overflow-hidden">
+        
         <GroupModalSidebar />
         <AnimatePresence>
           {Modal && (

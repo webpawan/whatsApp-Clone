@@ -39,11 +39,15 @@ const GroupModal = () => {
     }
     try {
       setLoading(true);
-      const { data } = await axios.put(
-        `/api/chat/groupremove`,
-        {
+      const { data } = await toast.promise(
+        axios.put(`/api/chat/groupremove`, {
           chatId: selectedChat._id,
           userId: rmUser._id,
+        }),
+        {
+          pending: "user is removing",
+          success: "user removed successfully",
+          error: "An error occurred while removing data.",
         }
       );
       if (rmUser._id === user._id) {
@@ -78,8 +82,8 @@ const GroupModal = () => {
           error: "An error occurred while loading data.",
         }
       );
-
       dispatch(setSelectedChat(data));
+      // name change ho jay or yahe chat select rahe 
       dispatch(renderComByCount());
      
       setEditing(true);

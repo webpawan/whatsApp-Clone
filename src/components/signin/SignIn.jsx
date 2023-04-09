@@ -11,6 +11,7 @@ const SignIn = () => {
   const [password, setPassword] = useState();
   const [pic, setPic] = useState();
 const [loading, setLoading] = useState(false)
+
   const postDetails = (pics) => {
     
     if (pics === undefined) {
@@ -180,7 +181,7 @@ setLoading(true)
                 accept="image/*"
                 onChange={(e) => postDetails(e.target.files[0])}
                 placeholder="select image"
-                className="my-5 pb-1 block  text-xs text-[#00a884]  cursor-pointer  focus:outline-none file:bg-transparent file:border-none border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] transition ease-in-out bg-transparent "
+                className="my-5 pb-1 block  text-xs text-[#00a884]  cursor-pointer   file:bg-transparent file:border-none border-b-2 border-[#00a884a0]  focus:outline-none focus:border-[#00a884] transition ease-in-out bg-transparent "
               />
             </div>
             <button

@@ -3,12 +3,11 @@ import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { closeInfoModal, getCount, userModal } from "../../../assets/logic/features/toggleSlice";
-import { getSelectedChat, getUser } from "../../../assets/logic/features/userSlice";
+import { getSelectedChat } from "../../../assets/logic/features/userSlice";
 
 const SingleUserModal = () => {
   const dispatch = useDispatch();
 
-  const user = useSelector(getUser);
   const isUserModal = useSelector(userModal);
   const selectedChat = useSelector(getSelectedChat);
 ;

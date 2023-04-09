@@ -88,12 +88,13 @@ const SideDrawer = () => {
       </div>
     );
   }
-
+// here is the user details when you click user image
   return (
     <>
       {slider ? (
         <div className="basis-1/3  border-r border-r-slate-700 text-white">
           <SidebarGroup />
+          {/* when you create group from menu this  is component  */}
         </div>
       ) : (
         <div
@@ -112,6 +113,7 @@ const SideDrawer = () => {
                 onClick={() => setUserModal(true)}
               />
               <p className="mx-3 text-slate-100 sm:hidden ">{user.name}</p>
+              {/* name show when you see in mobile screen  */}
             </div>
             <div className="icons flex  items-center w-2/5 ">
               <MainSidebarIcons />
