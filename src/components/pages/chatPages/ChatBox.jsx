@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import bgImage from "../../../assets/images/bg.png";
+
 import {
   getCount,
   getTypingFun,
@@ -17,7 +18,6 @@ import { getSenderFull } from "../../../assets/logic/LogicFunctions";
 import ChatNotSelected from "../../../assets/svg/ChatNotSelected";
 import SingleChat from "./singleChat/SingleChat";
 
-
 const ChatBox = () => {
   const dispatch = useDispatch();
   const user = useSelector(getUser);
@@ -25,10 +25,9 @@ const ChatBox = () => {
   const count = useSelector(getCount);
   const isTyping = useSelector(getTypingFun);
   useEffect(() => {}, [count]);
-
   if (selectedChat._id) {
     const userFull = getSenderFull(user, selectedChat.users);
-  //  konsa user ko per click kiya use info ka liya ki bo user kon ha 
+   
     return (
       <div
         style={{ backgroundImage: `url(${bgImage})` }}
@@ -42,18 +41,13 @@ const ChatBox = () => {
           <div
             className="flex items-center  hover:cursor-pointer"
             onClick={() => dispatch(openInfoModal())}
-            // when you whant to know singlechat or groupchat info so sidebir will arrive from left
           >
-
-            {/* this will show in small screen not desktop screen so it is not soo importat */}
             <span
               className="mr-3 p-2  text-slate-100 sm:hidden hover:bg-slate-600 hover:rounded-full hover:p-2 flex items-center justify-center "
               onClick={() => dispatch(setSelectedChat({}))}
-              
             >
               <i className="fa-solid fa-arrow-left text-xs sm:text-sm"></i>
             </span>
-           {/* --------------------------------------------------*/}
             <div className="mr-2  h-[30px] w-[30px]  rounded-full ">
               {selectedChat.isGroupChat ? (
                 <p  className="w-[30px] h-[30px] rounded-full bg-slate-400 text-slate-100 flex items-center justify-center">
@@ -68,8 +62,7 @@ const ChatBox = () => {
             </div>
             
             <div className="h-10">
-
-             {/*user ho to user ka name or group ho to group ka show hoga yaha per*/}
+              
               {selectedChat.isGroupChat ? (
                 <h2 className="text-sm   font-medium font-sans text-white mt-2">
                   {selectedChat.chatName}
@@ -98,14 +91,11 @@ const ChatBox = () => {
           </div>
         </div>
         {/* ------------------- */}
-        {/* yaha per chat show hongi chat kar sakege input box hoga */}
         <SingleChat />
       </div>
     );
   }
 
-
-  // this is show when user not click any chat 
   return (
     <>
       <div className="basis-4/5 bg-[#222e35] bg-cover bg-no-repeat bg-center hidden flex-col items-center justify-center z-10 shrink sm:flex">

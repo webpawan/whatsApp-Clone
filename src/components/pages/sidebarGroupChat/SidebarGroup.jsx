@@ -136,9 +136,8 @@ const SidebarGroup = () => {
     }
     dispatch(openGroupCom());
   };
-  if (GroupCreate) {
-    // this is second step when your choose name this part will show
 
+  if (GroupCreate) {
     return (
       <>
         <ToastContainer />
@@ -231,7 +230,7 @@ const SidebarGroup = () => {
             Add group participants
           </p>
         </motion.div>
-        {/* this sho when you search user, selected users when you create group if you mistecly select use wrong user so you can remove from select list============================= */}
+        {/* selected users ============================= */}
         <div
           className={
             selectUser && `py-3 mt-4 ml-4 flex flex-wrap  mr-1 overflow-y-auto `
@@ -249,8 +248,6 @@ const SidebarGroup = () => {
         </div>
         {/* ======================================== */}
 
-
-{/* -------------- search user */}
         <div className="input py-5 mb-3  flex justify-center ">
           <input
             type="text"
@@ -259,12 +256,10 @@ const SidebarGroup = () => {
             onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
-
-        {/* ------------------ */}
         <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
 
         <div className="flex flex-col w-full mx-auto overflow-auto  h-4/5">
-          {/* ---------------------------- search user list show when it is not load skleton show if you click on user user will be select*/}
+          {/* ---------------------------- */}
           <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
 
           {loading ? (

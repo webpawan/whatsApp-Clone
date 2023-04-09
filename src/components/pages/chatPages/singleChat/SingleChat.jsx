@@ -38,7 +38,6 @@ const SingleChat = () => {
         }`
       );
       setMessage(data);
-      // jitne bhi messga ehua ha or sab data ma a gay ha 
       setLoading(false);
 
       socket.emit("join chat", selectdChat._id);
@@ -50,9 +49,9 @@ const SingleChat = () => {
 
   useEffect(() => {
     socket = io(ENDPOINT);
+
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
-    // yadi typing ke signle ha to typing bala chalao or stop styping ka signle ha to stop typing chalao 
     socket.on("typing", () => dispatch(isUserTyping(true)));
     socket.on("stop typing", () => dispatch(isUserTyping(false)));
   }, []);
@@ -68,7 +67,6 @@ const SingleChat = () => {
     });
   });
 
-  // per enter key press karte ha tab ya function run karga 
   const sendMessage = async (event) => {
     if (event.key === "Enter" && newMessage) {
       socket.emit("stope typing", selectdChat._id);
@@ -89,31 +87,24 @@ const SingleChat = () => {
     }
   };
 
-  // yadi kuch change hota ha matlab key press karte jate ha   to typinghandler function run hoga 
   const typingHandler = (event) => {
     setNewMessage(event.target.value);
 
     // typing indicator logic
     if (!socketConnected) return;
 
-// typing pahle sa false ha to ya dhka false ha to useko tru kardo 
     if (!typing) {
       setTyping(true);
       socket.emit("typing", selectdChat._id);
     }
 
-    // yadi user kuch typing nahi kar raha to stop kar do 
-
-
     let lastTypingTime = new Date().getTime();
-    // jab ya function tun hua tab ka time 
     var timeLenght = 3000;
 
     setTimeout(() => {
       var timenow = new Date().getTime();
-      // 3 seconds bad yeh run hoga or timenow me 3seco bad ka time ayga 
       var timeDiff = timenow - lastTypingTime;
-// yadi 3 seond sa jyda ka time hua to stop typing function on kar do or typing ko false kardo
+
       if (timeDiff >= timeLenght && typing) {
         socket.emit("stop typing", selectdChat._id);
         setTyping(false);
@@ -143,7 +134,6 @@ const SingleChat = () => {
                 return (
                   <div key={i} className="text-white">
                     {(isSameSender(message, m, i, user.Id) ||
-
                       isLastMessage(message, i, user._id)) && (
                       <div
                         className={` flex ${alignClass} ${

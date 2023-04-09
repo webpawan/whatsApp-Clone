@@ -45,8 +45,7 @@ const MyChat = () => {
       setLoading(false);
 
     } catch (error) {
-      console.log(error);
-      alert("server problem");
+      // console.log(error);
     }
   };
 
@@ -56,6 +55,7 @@ const MyChat = () => {
         return data.chatName.includes(query);
       } else {
         let name = getSender(user, data.users);
+
         return name.includes(query);
       }
     });
@@ -126,7 +126,7 @@ const MyChat = () => {
                   <div
                     className={
                       getselectChat === chat
-                        ? `py-7  p-1 px-2 flex items-center h-10 bg-slate-700 hover:cursor-pointer`
+                        ? `py-7  p-1 px-2 flex items-center h-10 bg-slate-700 hover:cursor-pointer `
                         : `py-7   p-1 px-2 flex items-center h-10 hover:cursor-pointer`
                     }
                     onClick={() => dispatch(setSelectedChat(chat))}

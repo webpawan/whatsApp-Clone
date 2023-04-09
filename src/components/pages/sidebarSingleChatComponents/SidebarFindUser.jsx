@@ -34,7 +34,6 @@ const SidebarFindUser = () => {
         `/api/user?search=${search}`
       );
       setLoading(false);
-      
       setSearchResult(data);
     } catch (error) {
       alert("faild to load api");
@@ -45,6 +44,8 @@ const SidebarFindUser = () => {
   const accessChat = async (userId) => {
     try {
       setLoadingchat(true);
+      
+
       const { data } = await axios.post(
         `/api/chat`,
         { userId }
@@ -99,7 +100,9 @@ const SidebarFindUser = () => {
       
             {changeIcon ? (
               <motion.button
-                className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400 hover active:cursor-progress"
+                className=" py-[7px] px-5 bg-[#202c33] rounded-l-md  text-gray-400 hover active:cursor-progress  
+                
+              "
               initial={{opacity:0}} animate={{opacity:1}} exit={{opacity:0}}
                 onClick={(e) => handleSearch(e)}
               >
@@ -131,13 +134,11 @@ const SidebarFindUser = () => {
           >
             <div className=" py-2 px-3  rounded-full bg-[#00a07d] flex items-center justify-center">
               <i className="fa-solid fa-user-group text-lg"></i>
-              
             </div>
             <div className="flex flex-col ml-5  text-slate-200 w-full border-slate-400 ">
               <p className="text-sm font-sans font-medium  ">New Group</p>
             </div>
           </div>
-          {/* when you want to create new group click this, show when you create new chat  this is go to sidebarGroup component*/}
           <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
           <hr className="h-px w-5/6 ml-auto bg-slate-800  border-0" />
           <div className="py-7 p-1 px-2  flex items-center  h-10 hover:bg-slate-800 mb-5">
