@@ -109,26 +109,22 @@ const SignIn = () => {
     }
     setLoading(true);
     try {
-      const { data } = await toast.promise(
-        axios.post(`/api/user/login`, {
-          email,
-          password,
-        }),
-        {
-          pending: "login in process",
-          success: "login is completed",
-          error: "something is wrong try agai or the problem is",
-        }
-      );
-
+      const { data } = await axios.post(`/api/user/login`, {
+        email,
+        password,
+      });
       if (data) {
         localStorage.setItem("userInfo", JSON.stringify(data));
         navigate("/chat");
         setLoading(false);
+        setEmail("");
+        setPassword("");
         return alert("login successfull");
       }
     } catch (error) {
       setLoading(false);
+      setEmail("");
+      setPassword("");
       return toast.error("invalid creadintial", {
         position: "top-center",
         autoClose: 1500,
