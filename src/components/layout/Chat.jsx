@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   isModal,
   closeModal,
-
   getCount,
 } from "../../assets/logic/features/toggleSlice";
 import { AnimatePresence, motion } from "framer-motion";

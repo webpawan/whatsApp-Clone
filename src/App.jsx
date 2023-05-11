@@ -1,11 +1,11 @@
 import React from "react";
-import Chat from "./components/layout/Chat";
-import LogIn from "./components/signin/LogIn";
-import SignIn from "./components/signin/SignIn";
+import User from "./components/registration/User";
 import { Route, Routes } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { lazy, Suspense } from "react";
+const Chat = lazy(() => import("./components/layout/Chat"));
 
 const App = () => {
   const location = useLocation();
@@ -13,15 +13,14 @@ const App = () => {
   return (
     <>
       <AnimatePresence location={location} key={location.pathname}>
-        <Routes>
-          <Route path="/" element={<SignIn />} />
-          <Route path="/login" element={<LogIn />} />
-          <Route path="/chat" element={<Chat />} />
-          
-        </Routes>
+        <Suspense falback={<div> loading</div>}>
+          <Routes>
+            <Route path="/" element={<User />} exact />
+            <Route path="/chat" element={<Chat />} />
+          </Routes>
+        </Suspense>
       </AnimatePresence>
     </>
   );
 };
-
 export default App;
