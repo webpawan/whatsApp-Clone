@@ -7,8 +7,8 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [component, setComponent] = useState(false);
   const [name, setName] = useState("");
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [pic, setPic] = useState();
   const [loading, setLoading] = useState(false);
   const postDetails = (pics) => {
@@ -79,6 +79,7 @@ const SignIn = () => {
           error: "something is wrong try again ",
         }
       );
+      console.log(data);
       if (data) {
         localStorage.setItem("userInfo", JSON.stringify(data));
         setLoading(false);
@@ -90,7 +91,7 @@ const SignIn = () => {
       setLoading(false);
       console.log(error);
       return alert(
-        "something is wrong please try again or the problem with also from server"
+        "Please refresh the page or the problem with also from server"
       );
     }
   };

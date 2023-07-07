@@ -35,6 +35,7 @@ const SideDrawer = () => {
     );
   }
 
+  // yadi user khud ke phto or name dhkna chata ha sidebar ma 
   if (userModal) {
     return (
       <div className="basis-1/3  border-r border-r-slate-700 text-white">
